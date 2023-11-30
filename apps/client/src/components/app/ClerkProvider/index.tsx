@@ -3,7 +3,7 @@ import {
   ClerkProviderProps as ClerkProviderBaseProps
 } from "@clerk/clerk-react";
 import { dark } from "@clerk/themes";
-import { Theme } from "@/components/shared/ThemeProvider";
+import { Theme } from "@/components/app/ThemeProvider";
 
 type ClerkProviderProps = ClerkProviderBaseProps & {
   theme?: Theme
