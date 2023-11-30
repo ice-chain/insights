@@ -17,6 +17,10 @@ const config: Config = {
       },
     },
     extend: {
+      fontFamily: {
+        'inter': ['Inter', 'sans-serif'],
+        'kalam': ['Kalam', 'cursive']
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

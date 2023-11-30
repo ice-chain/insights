@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@clerk/clerk-react": "^4.28.1",
+    "@clerk/themes": "^1.7.9",
     "@radix-ui/react-slot": "^1.0.2",
     "@tanstack/react-router": "^0.0.1-beta.215",
     "class-variance-authority": "^0.7.0",

@@ -1,63 +1,30 @@
-import {
-  Outlet,
-  RouterProvider,
-  Route,
-  Router,
-  RootRoute,
-} from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/router-devtools'
+import { RouterProvider } from '@tanstack/react-router';
+import { ThemeProvider } from "@/components/shared/ThemeProvider";
+import { ClerkProvider } from "@/components/shared/ClerkProvider";
 
-const rootRoute = new RootRoute({
-  component: () => {
-    return (
-      <>
-        <Outlet />
-        <TanStackRouterDevtools position="bottom-right" />
-      </>
-    )
-  },
-});
+import { router } from './router';
 
-const indexRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: '/',
-  component: () => {
-    return (
-      <div className="p-2">
-        <h3>Welcome Home!</h3>
-      </div>
-    )
-  },
-})
-
-const signInRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: '/sign-in',
-  component: () => {
-    return (
-      <div className="p-2">
-        <h3>Sing in!</h3>
-      </div>
-    )
-  },
-})
-
-const routeTree = rootRoute.addChildren([
-  indexRoute,
-  signInRoute,
-])
-
-const router = new Router({ routeTree })
-
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: typeof router
-  }
+if (!import.meta.env.VITE_REACT_APP_CLERK_PUBLISHABLE_KEY) {
+  throw new Error("Missing Publishable Key")
 }
+
+const clerkPubKey = import.meta.env.VITE_REACT_APP_CLERK_PUBLISHABLE_KEY;
+
+// const metadata = {
+//   title: 'Insights',
+//   description: 'Social media insights',
+// };
 
 function App() {
   return (
-    <RouterProvider router={router} />
+    <ThemeProvider
+      defaultTheme="dark"
+      storageKey="vite-ui-theme"
+    >
+      <ClerkProvider publishableKey={clerkPubKey}>
+        <RouterProvider router={router} />
+      </ClerkProvider>
+    </ThemeProvider>
   )
 }
 
