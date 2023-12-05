@@ -24,7 +24,7 @@ export function Logo(props: LogoProps) {
         </Link>
         <Link
           to="/"
-          className="font-kalam text-4xl"
+          className="font-kalam text-4xl h-[40px] p-1"
         >
           Insights
         </Link>

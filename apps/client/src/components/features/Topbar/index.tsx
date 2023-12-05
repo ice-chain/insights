@@ -6,9 +6,15 @@ function Topbar() {
     return (
         <div className="flex justify-between px-40 py-2 border-b">
             <Logo />
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-4">
                 <ThemeToggle />
-                <UserButton />
+                <UserButton
+                    appearance={{
+                        elements: {
+                            userButtonAvatarBox: "h-9 w-9"
+                        }
+                    }}
+                />
             </div>
         </div>
     );
