@@ -1,10 +1,10 @@
 import AuthLayout from '@/components/shared/AuthLayout';
-import { SignIn } from '@clerk/clerk-react';
+import { SignUp as SignUpClerk } from '@clerk/clerk-react';
 
-export function SignInPage() {
+export function SignUp() {
     return (
         <AuthLayout>
-            <SignIn
+            <SignUpClerk
                 appearance={{
                     layout: {
                         logoPlacement: 'none',
@@ -15,7 +15,7 @@ export function SignInPage() {
                         headerSubtitle: 'hidden',
                     },
                 }}
-                signUpUrl='/sign-up'
+                signInUrl='/sign-in'
                 afterSignInUrl='/'
                 afterSignUpUrl='/'
             />

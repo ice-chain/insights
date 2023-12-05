@@ -5,9 +5,10 @@ import {
 } from '@tanstack/react-router';
 
 import { RootComponent } from '@/components/app/RootComponent';
-import { SignInPage } from '@/components/pages/SignInPage';
-import { SignUpPage } from '@/components/pages/SignUpPage';
-import { HomePage } from '@/components/pages/HomePage';
+import { SignIn } from '@/components/pages/SignIn';
+import { SignUp } from '@/components/pages/SignUp';
+import { Home } from '@/components/pages/Home';
+import { Dashboard } from '@/components/pages/Dashboard';
 
 const rootRoute = new RootRoute({
   component: RootComponent,
@@ -16,28 +17,37 @@ const rootRoute = new RootRoute({
 const indexRoute = new Route({
   getParentRoute: () => rootRoute,
   path: '/',
-  component: HomePage
+  component: Home
+})
+
+const dashboardRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: '/dashboard/$id',
+  component: Dashboard
 })
 
 const signInRoute = new Route({
   getParentRoute: () => rootRoute,
   path: '/sign-in',
-  component: SignInPage,
+  component: SignIn,
 })
 
 const signUpRoute = new Route({
   getParentRoute: () => rootRoute,
   path: '/sign-up',
-  component: SignUpPage,
+  component: SignUp,
 })
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
+  dashboardRoute,
   signInRoute,
   signUpRoute,
 ])
 
-export const router = new Router({ routeTree });
+export const router = new Router({
+  routeTree,
+});
 
 declare module '@tanstack/react-router' {
   interface Register {
