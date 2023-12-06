@@ -31,7 +31,7 @@ type Slug =
 
 
 export const Api = {
-    async getUserAccounts(userId: string) {
+    async getUserAccounts(userId?: string) {
         await new Promise(resolve => setTimeout(resolve, 1000));
         const accMock: IUserAccount = {
             id: '1',
