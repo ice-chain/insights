@@ -1,4 +1,5 @@
 // import LeftSidebar from '@/components/shared/LeftSidebar';
+import { Chart } from '@/components/shared/Chart';
 import { Metric } from '@/components/shared/Metric';
 import { RootLayout } from '@/components/shared/RootLayout';
 import { Api } from '@/lib/api';
@@ -37,8 +38,7 @@ export function Dashboard() {
 
     return (
         <RootLayout>
-            <main className="px-40 py-10">
-                <div className="flex px-40 gap-8 py-10">
+            <main className="flex flex-col gap-4 px-40 py-10">
                 {/* <LeftSidebar /> */}
                 <div className="grid gap-4 grid-cols-4 w-full">
                     {overviewInsights.map(metric => {
@@ -53,7 +53,10 @@ export function Dashboard() {
                         )
                     })}
                 </div>
-            </div>
+                <div className="grid gap-4 grid-cols-2 h-72">
+                    <Chart />
+                    <Chart />
+                </div>
             </main>
         </RootLayout>
 
