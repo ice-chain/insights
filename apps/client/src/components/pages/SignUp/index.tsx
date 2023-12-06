@@ -1,4 +1,4 @@
-import AuthLayout from '@/components/shared/AuthLayout';
+import { AuthLayout } from '@/components/shared/AuthLayout';
 import { SignUp as SignUpClerk } from '@clerk/clerk-react';
 
 export function SignUp() {

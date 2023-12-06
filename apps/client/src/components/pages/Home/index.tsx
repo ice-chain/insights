@@ -1,6 +1,6 @@
 import { AccountsList } from "@/components/features/AccountsList";
 import { GetStarted } from "@/components/features/GetStarted";
-import RootLayout from "@/components/shared/RootLayout";
+import { RootLayout } from "@/components/shared/RootLayout";
 import { useUser } from '@clerk/clerk-react';
 
 export function Home() {
