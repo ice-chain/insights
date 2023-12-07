@@ -12,7 +12,7 @@ export function Home() {
 
   return (
     <RootLayout>
-      <main className="px-40 py-10">
+      <main className="px-16 py-10">
         {isSignedIn ? (
           <AccountsList userId={user.id} />
         ) : (

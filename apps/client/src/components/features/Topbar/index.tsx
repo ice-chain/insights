@@ -4,7 +4,7 @@ import { Logo } from '@/components/shared/Logo';
 
 function Topbar() {
     return (
-        <div className="flex justify-between px-40 py-2 border-b">
+        <div className="flex justify-between px-16 border-b py-1">
             <Logo />
             <div className="flex items-center gap-4">
                 <ThemeToggle />

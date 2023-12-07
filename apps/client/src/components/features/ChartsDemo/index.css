@@ -1,0 +1,21 @@
+.charts-container {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  @apply mt-28 ml-28;
+}
+
+.demo-chart {
+  @apply absolute w-96 h-60 rounded-3xl border text-card-foreground p-6 bg-card/70;
+}
+
+.demo-chart:nth-child(1) {
+  transform: rotateY(-30deg) translateZ(-100px) translateX(100px) translateY(-100px);
+}
+
+.demo-chart:nth-child(2) {
+  transform: rotateY(-30deg) translateZ(0) translateX(0) translateY(0);
+}
+
+.demo-chart:nth-child(3) {
+  transform: rotateY(-30deg) translateZ(100px) translateX(-100px) translateY(100px);
+}

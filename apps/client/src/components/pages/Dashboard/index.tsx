@@ -45,13 +45,13 @@ export function Dashboard() {
 
     return (
         <RootLayout>
-            <main className="px-40 py-10 grid gap-4 grid-cols-6 flex-1 relative">
+            <main className="py-10 px-16 grid gap-4 grid-cols-6 flex-1 relative">
                 <Sidebar
                     className="col-span-1"
                     accountId={params.id}
                     accounts={accountsData}
                 />
-                <div className="col-span-5 grid gap-4">
+                <div className="col-span-5 grid gap-4 grid-flow-row">
                     <div className="grid gap-4 grid-cols-4 w-full">
                         {overviewInsights.map(metric => {
                             return (
