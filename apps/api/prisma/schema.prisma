@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model User {
+  id             String          @id
+  email          String          @unique
+  name           String?
+  socialAccounts SocialAccount[]
+}
+
+model SocialAccount {
+  id           String @id
+  provider     String
+  token        String
+  userId       String
+  tokenExpires Int
+  user         User   @relation(fields: [userId], references: [id])
+}
