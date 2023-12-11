@@ -1,8 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { ChartsDemo } from '@/components/features/ChartsDemo';
+import { useUser } from "@clerk/clerk-react";
 
 export function GetStarted() {
+  const { isSignedIn, isLoaded } = useUser();
+
+  if (!isLoaded) {
+    return null;
+  }
+
   return (
     <div className="flex mt-12">
       <div>
@@ -20,7 +27,7 @@ export function GetStarted() {
         >
           <Link
             className="inline-flex items-center"
-            to="/sign-up"
+            to={isSignedIn ? "/dashboard" : "/sign-up"}
           >
             Get started
           </Link>

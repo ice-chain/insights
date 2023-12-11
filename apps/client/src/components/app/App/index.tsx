@@ -1,4 +1,4 @@
-import { RouterProvider } from '@tanstack/react-router';
+import { RouterProvider, RouterContext } from '@tanstack/react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from "@/components/app/ThemeProvider";
 import { ClerkProvider } from "@/components/app/ClerkProvider";

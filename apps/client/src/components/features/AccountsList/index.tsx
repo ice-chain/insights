@@ -15,11 +15,10 @@ export function AccountsList(props: AccountsListProps) {
     const [newAccountLoading, setNewAccountLoading] = useState(false);
 
     const { data, isError, isPending, isSuccess } = useQuery({
-        queryKey: ['user-accounts', userId],
-        queryFn: () => Api.getUserAccounts(userId),
+        queryKey: ['accounts', userId],
+        queryFn: () => Api.getAccounts(userId),
     });
 
-    console.log(isPending, isSuccess);
     if (isError) {
         return "Error message";
     }
@@ -32,7 +31,7 @@ export function AccountsList(props: AccountsListProps) {
         setNewAccountLoading(false);
     }
 
-    const noAccounts = isSuccess && data.accounts.length === 0;
+    const noAccounts = isSuccess && data.length === 0;
 
     return (
         <>
@@ -46,7 +45,7 @@ export function AccountsList(props: AccountsListProps) {
                     isPending ? (
                         <UserCardSkeleton />
                     ): (
-                        data.accounts.map(account => {
+                        data.map(account => {
                             return (
                                 <UserCard
                                     key={account.id}

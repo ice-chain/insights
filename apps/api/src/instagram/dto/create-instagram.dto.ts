@@ -1,1 +1,4 @@
-export class CreateInstagramDto {}
+export class CreateInstagramDto {
+    userId: string;
+    token: string;
+}

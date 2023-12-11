@@ -1,46 +1,77 @@
 import {
+  Navigate,
+  Outlet,
+  RootRoute,
   Route,
   Router,
-  RootRoute,
 } from '@tanstack/react-router';
+import { useAuth } from '@clerk/clerk-react';
 
 import { RootComponent } from '@/components/app/RootComponent';
 import { SignIn } from '@/components/pages/SignIn';
 import { SignUp } from '@/components/pages/SignUp';
 import { Home } from '@/components/pages/Home';
 import { Dashboard } from '@/components/pages/Dashboard';
+import { Account } from '@/components/pages/Account';
 
 const rootRoute = new RootRoute({
   component: RootComponent,
 });
 
-const indexRoute = new Route({
+const authenticatedRoute = new Route({
   getParentRoute: () => rootRoute,
+  id: 'authenticated-layout',
+  component: function Auth() {
+    const { isLoaded, isSignedIn } = useAuth();
+
+    if(!isLoaded) {
+      return 'LOADING>>>>';
+    }
+
+    return isSignedIn ? (
+      <Outlet />
+    ) : (
+      <Navigate to="/sign-in" />
+    )
+  },
+})
+
+const indexRoute = new Route({
   path: '/',
+  getParentRoute: () => rootRoute,
   component: Home
 })
 
-const dashboardRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: '/dashboard/$id',
-  component: Dashboard
-})
-
 const signInRoute = new Route({
+  path: 'sign-in',
   getParentRoute: () => rootRoute,
-  path: '/sign-in',
   component: SignIn,
 })
 
 const signUpRoute = new Route({
+  path: 'sign-up',
   getParentRoute: () => rootRoute,
-  path: '/sign-up',
   component: SignUp,
+})
+
+const dashboardRoute = new Route({
+  path: 'dashboard',
+  getParentRoute: () => authenticatedRoute,
+  component: Dashboard,
+});
+
+const dashboardAccountRoute = new Route({
+  path: 'dashboard/$id',
+  getParentRoute: () => authenticatedRoute,
+  component: Account,
 })
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
-  dashboardRoute,
+  authenticatedRoute.addChildren([
+    dashboardRoute,
+    dashboardAccountRoute
+  ]),
   signInRoute,
   signUpRoute,
 ])

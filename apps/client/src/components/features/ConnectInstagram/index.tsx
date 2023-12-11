@@ -34,7 +34,7 @@ function ConnectInstagram(props: ConnectInstagramProps) {
     const routerState = useRouterState();
 
     const mutation = useMutation({
-        mutationFn: Api.createUserAccounts,
+        mutationFn: Api.createAccounts,
         onSuccess: onLoadSuccess,
         onError: onLoadError,
     });
@@ -55,14 +55,12 @@ function ConnectInstagram(props: ConnectInstagramProps) {
                 hash: () => '',
                 replace: true,
             });
-        } else {
-            console.log('No');
         }
     }, [hash, pathname, navigate, onLoad, accessToken, mutation, userId]);
 
     return (
         <div
-            className="flex justify-center items-center p-4 bg-secondary rounded-md hover:cursor-pointer"
+            className="flex justify-center items-center p-4 bg-secondary/30 backdrop-blur-md rounded-3xl hover:cursor-pointer"
             title="Add account"
         >
             <Link

@@ -3,8 +3,9 @@ import {
   ExecutionContext,
   Injectable,
   UnauthorizedException,
+  createParamDecorator,
 } from '@nestjs/common';
-import { Clerk } from '@clerk/clerk-sdk-node';
+import { Clerk, SignedInAuthObject } from '@clerk/clerk-sdk-node';
 import { Request } from 'express';
 
 // TODO: create module https://github.com/devagrawal09/clerk-nest-example/blob/main/api/src/clerk.module.ts
@@ -52,3 +53,12 @@ export class AuthGuard implements CanActivate {
     return clientToken;
   }
 }
+
+/**
+ * Custom decorator for adding principal to request object.
+ *
+ * @type {(...dataOrPipes: Type<PipeTransform> | PipeTransform | any[]) => ParameterDecorator}
+ */
+export const Auth = createParamDecorator((data: string, context: ExecutionContext) => {
+    return context.switchToHttp().getRequest().auth as SignedInAuthObject;
+});
