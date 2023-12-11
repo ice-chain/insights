@@ -26,7 +26,7 @@ export function Metric(props: MetricProps) {
     const color = diff > 0 ? 'text-green-500' : 'text-red-500';
 
     return (
-        <div className="flex flex-col gap-4 rounded-xl shadow bg-card/30 backdrop-blur-md text-card-foreground p-6">
+        <div className="flex flex-col gap-4 rounded-3xl shadow bg-secondary text-card-foreground p-6">
             <div className="text-sm font-medium flex gap-4 justify-between">
                 {title}
 
