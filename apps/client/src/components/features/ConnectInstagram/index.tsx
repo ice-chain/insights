@@ -60,7 +60,7 @@ function ConnectInstagram(props: ConnectInstagramProps) {
 
     return (
         <div
-            className="flex justify-center items-center p-4 bg-secondary/30 backdrop-blur-md rounded-3xl hover:cursor-pointer"
+            className="flex justify-center items-center p-4 bg-secondary rounded-3xl hover:cursor-pointer"
             title="Add account"
         >
             <Link

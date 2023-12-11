@@ -29,7 +29,7 @@ function UserCard(props: UserCardProps) {
 
     return (
         <article
-            className={cn("flex gap-12 p-4 bg-secondary/30 backdrop-blur-md rounded-3xl hover:cursor-pointer justify-center", className)}
+            className={cn("flex gap-12 p-4 bg-secondary rounded-3xl hover:cursor-pointer justify-center", className)}
             onClick={() => {
                 navigate({ to: '/dashboard/$id', params: { id } })
             }}

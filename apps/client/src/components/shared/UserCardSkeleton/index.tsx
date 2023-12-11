@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export function UserCardSkeleton() {
     return (
-        <article className={cn("flex gap-12 p-4 rounded-3xl justify-center bg-secondary/30 backdrop-blur-md")}>
+        <article className={cn("flex gap-12 p-4 rounded-3xl justify-center bg-secondary")}>
             <div className="flex flex-col gap-3 w-full items-center">
                 <Skeleton className="h-[48px] w-[48px] rounded-full bg-primary" />
                 <div className="text-ellipsis flex flex-col items-center gap-1">

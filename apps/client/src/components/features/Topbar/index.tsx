@@ -1,13 +1,17 @@
 import { UserButton } from '@clerk/clerk-react';
-import { ThemeToggle } from '@/components/shared/ThemeToggle';
 import { Logo } from '@/components/shared/Logo';
+import { ThemeToggle } from '@/components/features/ThemeToggle';
+import { LangSwitcher } from '@/components/features/LangSwitcher';
 
 function Topbar() {
     return (
-        <div className="flex justify-between px-16 border-b py-1">
+        <div className="flex justify-between px-16 py-2">
             <Logo />
-            <div className="flex items-center gap-4">
-                <ThemeToggle />
+            <div className="flex items-center gap-10">
+                <div className="flex items-center gap-2">
+                    <LangSwitcher />
+                    <ThemeToggle />
+                </div>
                 <UserButton
                     appearance={{
                         elements: {

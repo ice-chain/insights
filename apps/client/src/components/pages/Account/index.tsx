@@ -4,7 +4,7 @@ import { useUser } from '@clerk/clerk-react';
 import { addDays } from 'date-fns';
 import { Metric } from '@/components/shared/Metric';
 import { RootLayout } from '@/components/shared/RootLayout';
-import { Sidebar } from '@/components/shared/Sidebar';
+import { Sidebar } from '@/components/features/Sidebar';
 import { Api } from '@/lib/api';
 
 export function Account() {

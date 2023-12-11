@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import UserChip from "../UserChip";
+import UserChip from "../../shared/UserChip";
 import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
 
