@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import UserChip from "../UserChip";
 import { cn } from "@/lib/utils";
+import { Plus } from "lucide-react";
 
 interface SidebarProps {
     className?: string;
@@ -47,16 +48,27 @@ export function Sidebar(props: SidebarProps) {
                             })}
                         </SelectGroup>
                         <SelectGroup>
-                            <Button>Add</Button>
+                            <Button
+                                variant="ghost"
+                                className="w-full"
+                            >
+                                <Plus />
+                            </Button>
                         </SelectGroup>
 
                     </SelectContent>
                 </Select>
             </div>
-            <div>
-                <div>Profile</div>
-                <div>Followers</div>
-            </div>
+            {/* <nav>
+                <ul>
+                    <li>
+                        <span>Profile</span>
+                    </li>
+                    <li>
+                        <span>Followers</span>
+                    </li>
+                </ul>
+            </nav> */}
         </aside>
     )
 }

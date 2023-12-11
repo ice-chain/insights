@@ -1,10 +1,39 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateInstagramDto } from './dto/create-instagram.dto';
 import { UpdateInstagramDto } from './dto/update-instagram.dto';
 import { decrypt, encrypt } from 'lib/enctypt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserService } from 'src/user/user.service';
-import { FacebookAdsApi, IGUser } from 'facebook-nodejs-business-sdk';
+import { FacebookAdsApi, IGUser, InstagramInsightsResult } from 'facebook-nodejs-business-sdk';
+
+enum InstagramInsightsMetrics {
+  impressions = 'impressions',
+  reach = 'reach',
+  follower_count = 'follower_count',
+  email_contacts = 'email_contacts',
+  phone_call_clicks = 'phone_call_clicks',
+  text_message_clicks = 'text_message_clicks',
+  get_directions_clicks = 'get_directions_clicks',
+  website_clicks = 'website_clicks',
+  profile_views = 'profile_views',
+  audience_gender_age = 'audience_gender_age',
+  audience_locale = 'audience_locale',
+  audience_country = 'audience_country',
+  audience_city = 'audience_city',
+  online_followers = 'online_followers',
+  accounts_engaged = 'accounts_engaged',
+  total_interactions = 'total_interactions',
+  likes = 'likes',
+  comments = 'comments',
+  shares = 'shares',
+  saves = 'saves',
+  replies = 'replies',
+  engaged_audience_demographics = 'engaged_audience_demographics',
+  reached_audience_demographics = 'reached_audience_demographics',
+  follower_demographics = 'follower_demographics',
+  follows_and_unfollows = 'follows_and_unfollows',
+  profile_links_taps = 'profile_links_taps',
+}
 
 type FacebookAccount = {
   data: {
@@ -166,5 +195,67 @@ export class InstagramService {
 
   remove(id: number) {
     return `This action removes a #${id} instagram`;
+  }
+
+  async findInsightsOverview({ period, userId, id }: { period: { since: number, until: number }, userId:string, id:string }) {
+    const account = await this.prisma.socialAccount.findUnique({
+      where: { id },
+      select : {
+        token: true,
+        userId: true,
+      }
+    });
+
+    if(userId !== userId) {
+      throw new ForbiddenException();
+    }
+
+    const token = decrypt(account.token, this.CIPHER_KEY);
+
+    FacebookAdsApi.init(token);
+
+    const insightsCursor = await new IGUser(id).getInsights(
+      [
+        InstagramInsightsResult.Fields.name,
+        InstagramInsightsResult.Fields.title,
+        InstagramInsightsResult.Fields.description,
+        InstagramInsightsResult.Fields.total_value,
+      ],
+      {
+          metric: [
+            InstagramInsightsMetrics.reach,
+            InstagramInsightsMetrics.impressions,
+            InstagramInsightsMetrics.profile_views,
+            InstagramInsightsMetrics.accounts_engaged,
+          ],
+          since: period.since,
+          until: period.until,
+          period: InstagramInsightsResult.Period.day,
+          metric_type: InstagramInsightsResult.MetricType.total_value,
+      }
+    );
+
+    const result = insightsCursor.map(metric => {
+      return {
+        id: metric.id,
+        name: metric.name,
+        description: metric.description,
+        title: metric.title,
+        totalValue: metric.total_value.value,
+      };
+    });
+
+    const previous = await insightsCursor.previous();
+
+    const grouped = previous.reduce((res, metric) => ({...res, [metric.id]: metric._data}) , {});
+
+    return result.map(metric => {
+      return {
+        ...metric,
+        diff: Number((
+          (metric.totalValue / grouped[metric.id].total_value.value) - 1
+        ).toFixed(4)),
+      };
+    });
   }
 }

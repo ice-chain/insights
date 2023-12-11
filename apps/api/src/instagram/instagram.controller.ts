@@ -48,4 +48,18 @@ export class InstagramController {
   remove(@Param('id') id: string) {
     return this.instagramService.remove(+id);
   }
+
+  @Get(':id/insights')
+  findInsightsOverview(
+    @Auth() auth: SignedOutAuthObject,
+    @Param('id') id: string,
+    @Query('userId') userId: string,
+    @Query('period') period: { since: number, until: number }
+  ) {
+    if (userId !== auth.userId) {
+      return new ForbiddenException();
+    }
+
+    return this.instagramService.findInsightsOverview({ period, userId, id });
+  }
 }
