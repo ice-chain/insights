@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import { ChartsDemo } from '@/components/features/ChartsDemo';
+import { ChartsDemo } from '@/components/features/ChartsStubs';
 import { useUser } from "@clerk/clerk-react";
 
 export function GetStarted() {

@@ -1,6 +1,5 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateInstagramDto } from './dto/create-instagram.dto';
-import { UpdateInstagramDto } from './dto/update-instagram.dto';
 import { decrypt, encrypt } from 'lib/enctypt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserService } from 'src/user/user.service';
@@ -35,6 +34,8 @@ enum InstagramInsightsMetrics {
   profile_links_taps = 'profile_links_taps',
 }
 
+type InstagramInsightsDto = { period: { since: number, until: number }, userId:string, id:string };
+
 type FacebookAccount = {
   data: {
       instagram_business_account?: {
@@ -54,6 +55,7 @@ type IGUserData = {
 }
 
 
+
 @Injectable()
 export class InstagramService {
   constructor(
@@ -64,6 +66,33 @@ export class InstagramService {
   private CIPHER_KEY = process.env.CIPHER_KEY || '';
   private FB_APP_ID = process.env.FB_APP_ID || '';
   private FB_APP_SECRET = process.env.FB_APP_SECRET || '';
+
+  private
+
+  private checkPermissions(accountUserId: string, currentUserId: string) {
+    if(accountUserId !== currentUserId) {
+      throw new ForbiddenException();
+    }
+
+    return true;
+  }
+
+  private async getAccountData(id: string) {
+    const account = await this.prisma.socialAccount.findUnique({
+      where: { id },
+      select : {
+        token: true,
+        userId: true,
+      }
+    });
+
+    const token = decrypt(account.token, this.CIPHER_KEY);
+
+    return {
+      token,
+      userId: account.userId,
+    };
+  }
 
 
   private async getLongLivedToken(shortTermToken: string) {
@@ -189,30 +218,12 @@ export class InstagramService {
     };
   }
 
-  update(id: number, updateInstagramDto: UpdateInstagramDto) {
-    return `This action updates a #${id} instagram`;
-  }
+  async findInsightsOverview({ period, userId, id }: InstagramInsightsDto) {
+    const accountData = await this.getAccountData(id);
 
-  remove(id: number) {
-    return `This action removes a #${id} instagram`;
-  }
+    this.checkPermissions(accountData.userId, userId);
 
-  async findInsightsOverview({ period, userId, id }: { period: { since: number, until: number }, userId:string, id:string }) {
-    const account = await this.prisma.socialAccount.findUnique({
-      where: { id },
-      select : {
-        token: true,
-        userId: true,
-      }
-    });
-
-    if(userId !== userId) {
-      throw new ForbiddenException();
-    }
-
-    const token = decrypt(account.token, this.CIPHER_KEY);
-
-    FacebookAdsApi.init(token);
+    FacebookAdsApi.init(accountData.token);
 
     const insightsCursor = await new IGUser(id).getInsights(
       [
@@ -257,5 +268,38 @@ export class InstagramService {
         ).toFixed(4)),
       };
     });
+  }
+
+  async findInsightsFollowersOnline({ period, userId, id }: InstagramInsightsDto) {
+    const accountData = await this.getAccountData(id);
+
+    this.checkPermissions(accountData.userId, userId);
+
+    FacebookAdsApi.init(accountData.token);
+
+    const [onlineFollowerRes] = await new IGUser(id).getInsights(
+      [
+        InstagramInsightsResult.Fields.name,
+        InstagramInsightsResult.Fields.title,
+        InstagramInsightsResult.Fields.description,
+        InstagramInsightsResult.Fields.values,
+      ],
+      {
+        metric: [
+          InstagramInsightsMetrics.online_followers,
+        ],
+        since: period.since,
+        until: period.until,
+        period: InstagramInsightsResult.Period.lifetime,
+      }
+    );
+
+    return {
+      id: onlineFollowerRes.id,
+      name: onlineFollowerRes.name,
+      description: onlineFollowerRes.description,
+      title: onlineFollowerRes.title,
+      values: onlineFollowerRes.values,
+    }
   }
 }

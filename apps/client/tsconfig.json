@@ -25,6 +25,7 @@
       "@/*": ["./src/*"],
       "react": [ "./node_modules/@types/react" ]
     },
+    "allowSyntheticDefaultImports": true,
   },
   "include": ["**/*.ts", "**/*.tsx", "postcss.config.js"],
   "exclude": ["node_modules"],

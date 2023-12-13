@@ -39,16 +39,6 @@ export class InstagramController {
     return this.instagramService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInstagramDto: UpdateInstagramDto) {
-    return this.instagramService.update(+id, updateInstagramDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.instagramService.remove(+id);
-  }
-
   @Get(':id/insights')
   findInsightsOverview(
     @Auth() auth: SignedOutAuthObject,
@@ -61,5 +51,19 @@ export class InstagramController {
     }
 
     return this.instagramService.findInsightsOverview({ period, userId, id });
+  }
+
+  @Get(':id/online-followers')
+  findInsightsFollowersOnline(
+    @Auth() auth: SignedOutAuthObject,
+    @Param('id') id: string,
+    @Query('userId') userId: string,
+    @Query('period') period: { since: number, until: number }
+  ) {
+    if (userId !== auth.userId) {
+      return new ForbiddenException();
+    }
+
+    return this.instagramService.findInsightsFollowersOnline({ period, userId, id });
   }
 }

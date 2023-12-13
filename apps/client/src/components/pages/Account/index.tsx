@@ -6,6 +6,7 @@ import { Metric } from '@/components/shared/Metric';
 import { RootLayout } from '@/components/shared/RootLayout';
 import { Sidebar } from '@/components/features/Sidebar';
 import { Api } from '@/lib/api';
+import { OnlineFollowersChart } from '@/components/features/OnlineFollowersChart';
 
 export function Account() {
     const params = useParams({ from: '/authenticated-layout/dashboard/$id' });
@@ -58,6 +59,11 @@ export function Account() {
                                 />
                             )
                         })}
+                    </div>
+                    <div className="grid gap-4 grid-cols-1 w-full h-3/6">
+                        <OnlineFollowersChart
+                            id={params.id}
+                        />
                     </div>
                 </div>
             </main>
