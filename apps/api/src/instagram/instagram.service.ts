@@ -302,4 +302,37 @@ export class InstagramService {
       values: onlineFollowerRes.values,
     }
   }
+
+  async findInsightsFollowersCount({ period, userId, id }: InstagramInsightsDto) {
+    const accountData = await this.getAccountData(id);
+
+    this.checkPermissions(accountData.userId, userId);
+
+    FacebookAdsApi.init(accountData.token);
+
+    const [followersCount] = await new IGUser(id).getInsights(
+      [
+        InstagramInsightsResult.Fields.name,
+        InstagramInsightsResult.Fields.title,
+        InstagramInsightsResult.Fields.description,
+        InstagramInsightsResult.Fields.values,
+      ],
+      {
+        metric: [
+          InstagramInsightsMetrics.follower_count,
+        ],
+        since: period.since,
+        until: period.until,
+        period: InstagramInsightsResult.Period.day,
+      }
+    );
+
+    return {
+      id: followersCount.id,
+      name: followersCount.name,
+      description: followersCount.description,
+      title: followersCount.title,
+      values: followersCount.values,
+    }
+  }
 }

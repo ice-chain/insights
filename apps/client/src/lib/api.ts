@@ -45,6 +45,18 @@ export interface IAccountOnlineFollowers {
     }[]
 }
 
+export interface IAccountFollowersCount {
+    id: string;
+    name: TInsightName;
+    description: string;
+    title: string;
+    values: {
+        value: Record<THour, number>;
+        end_time: string;
+    }[]
+}
+
+
 export const Api = {
     async getAccounts(userId: string) {
         return (await api.get<IAccount[]>('/instagram', { params: { userId } })).data
@@ -62,6 +74,12 @@ export const Api = {
 
     async getAccountOnlineFollowers({ accountId, userId, period }: { accountId: string, userId: string, period: { since: number, until: number } }) {
         return (await api.get<IAccountOnlineFollowers>(`/instagram/${accountId}/online-followers`, {
+            params: { userId, period }
+        })).data
+    },
+
+    async getAccountFollowersCount({ accountId, userId, period }: { accountId: string, userId: string, period: { since: number, until: number } }) {
+        return (await api.get<IAccountFollowersCount>(`/instagram/${accountId}/followers-count`, {
             params: { userId, period }
         })).data
     }

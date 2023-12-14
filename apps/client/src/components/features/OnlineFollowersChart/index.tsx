@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import isEmpty from 'lodash.isempty';
+import { ChartLoader } from "../ChartLoader";
 
 interface OnlineFollowersChartProps {
     id: string;
@@ -49,16 +50,12 @@ export function OnlineFollowersChart(props: OnlineFollowersChartProps) {
         })
     });
 
-    if (onlineFollowers.isLoading) {
-        return 'Loading...';
-    }
-
-    if (onlineFollowers.isError) {
-        return 'Error...';
-    }
-
     return (
-        <OnlineFollowersChartContent data={onlineFollowers.data!} />
+        <ChartLoader
+            query={onlineFollowers}
+            renderChart={(data) => <OnlineFollowersChartContent data={data} />}
+        />
+
     )
 }
 
@@ -116,7 +113,6 @@ function OnlineFollowersChartContent(props: OnlineFollowersChartContentProps) {
                 ) : (
                     <ResponsiveContainer height={300}>
                         <BarChart data={dataToShow}>
-                            hello
                             <XAxis dataKey="hour" />
                             <Bar dataKey="value" fill="#8884d8">
                                 <LabelList dataKey="value" position="top" />

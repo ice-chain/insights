@@ -66,4 +66,18 @@ export class InstagramController {
 
     return this.instagramService.findInsightsFollowersOnline({ period, userId, id });
   }
+
+  @Get(':id/followers-count')
+  findInsightsFollowersCount(
+    @Auth() auth: SignedOutAuthObject,
+    @Param('id') id: string,
+    @Query('userId') userId: string,
+    @Query('period') period: { since: number, until: number }
+  ) {
+    if (userId !== auth.userId) {
+      return new ForbiddenException();
+    }
+
+    return this.instagramService.findInsightsFollowersCount({ period, userId, id });
+  }
 }

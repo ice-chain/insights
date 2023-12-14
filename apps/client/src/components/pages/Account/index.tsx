@@ -7,6 +7,7 @@ import { RootLayout } from '@/components/shared/RootLayout';
 import { Sidebar } from '@/components/features/Sidebar';
 import { Api } from '@/lib/api';
 import { OnlineFollowersChart } from '@/components/features/OnlineFollowersChart';
+import { FollowersCountChart } from '@/components/features/FollowersCountChart';
 
 export function Account() {
     const params = useParams({ from: '/authenticated-layout/dashboard/$id' });
@@ -62,6 +63,11 @@ export function Account() {
                     </div>
                     <div className="grid gap-4 grid-cols-1 w-full h-3/6">
                         <OnlineFollowersChart
+                            id={params.id}
+                        />
+                    </div>
+                    <div className="grid gap-4 grid-cols-2 w-full h-3/6">
+                        <FollowersCountChart
                             id={params.id}
                         />
                     </div>
