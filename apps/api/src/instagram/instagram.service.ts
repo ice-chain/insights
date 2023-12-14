@@ -270,6 +270,50 @@ export class InstagramService {
     });
   }
 
+  async findInsightsInteractions({ period, userId, id }: InstagramInsightsDto) {
+    const accountData = await this.getAccountData(id);
+
+    this.checkPermissions(accountData.userId, userId);
+
+    FacebookAdsApi.init(accountData.token);
+
+    const insightsCursor = await new IGUser(id).getInsights(
+      [
+        InstagramInsightsResult.Fields.name,
+        InstagramInsightsResult.Fields.title,
+        InstagramInsightsResult.Fields.description,
+        InstagramInsightsResult.Fields.total_value,
+        InstagramInsightsResult.Fields.values,
+      ],
+      {
+        metric: [
+          InstagramInsightsMetrics.likes,
+          InstagramInsightsMetrics.comments,
+          InstagramInsightsMetrics.saves,
+          InstagramInsightsMetrics.shares,
+        ],
+        metric_type: InstagramInsightsResult.MetricType.total_value,
+        since: period.since,
+        until: period.until,
+        period: InstagramInsightsResult.Period.day,
+        breakdown: 'media_product_type',
+      }
+    );
+
+    const result = insightsCursor.map(metric => {
+      console.log(metric);
+      return {
+        id: metric.id,
+        name: metric.name,
+        description: metric.description,
+        title: metric.title,
+        totalValue: metric.total_value,
+      };
+    });
+
+    return result;
+  }
+
   async findInsightsFollowersOnline({ period, userId, id }: InstagramInsightsDto) {
     const accountData = await this.getAccountData(id);
 

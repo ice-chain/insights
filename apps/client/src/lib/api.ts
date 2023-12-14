@@ -16,13 +16,13 @@ interface IAccount {
     provider: 'instagram';
 }
 
-interface IAccountInsights {
+export interface IAccountInsights {
     id: string;
     name: TInsightName;
     description: string;
     title: string;
     totalValue: number;
-    diff: number | null;
+    diff?: number | null;
 }
 
 type TInsightName =
@@ -68,6 +68,12 @@ export const Api = {
 
     async getAccountInsights({ accountId, userId, period }: { accountId: string, userId: string, period: { since: number, until: number } }) {
         return (await api.get<IAccountInsights[]>(`/instagram/${accountId}/insights`, {
+            params: { userId, period }
+        })).data
+    },
+
+    async getAccountInteractions({ accountId, userId, period }: { accountId: string, userId: string, period: { since: number, until: number } }) {
+        return (await api.get<IAccountInsights[]>(`/instagram/${accountId}/interactions`, {
             params: { userId, period }
         })).data
     },
