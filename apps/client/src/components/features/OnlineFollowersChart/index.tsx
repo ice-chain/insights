@@ -1,12 +1,13 @@
-import { addDays, format } from "date-fns";
+import { addDays, getDay, startOfWeek } from "date-fns";
 import { Bar, BarChart, LabelList, ResponsiveContainer, XAxis } from "recharts";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Api, IAccountOnlineFollowers, THour } from "@/lib/api";
+import { api, IAccountOnlineFollowers, THour } from "@/lib/api";
 import { useMemo, useState } from "react";
 import { useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import isEmpty from 'lodash.isempty';
 import { ChartLoader } from "../ChartLoader";
+import { formatDate } from "@/lib/date";
 
 interface OnlineFollowersChartProps {
     id: string;
@@ -16,9 +17,11 @@ interface OnlineFollowersChartContentProps {
     data: IAccountOnlineFollowers;
 }
 
-type DayOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+type DayOfWeek =  0 | 1 | 2 | 3 | 4 | 5 | 6;
 
-const daysOfWeek: DayOfWeek[]  = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const daysOfWeek: DayOfWeek[]  = [0, 1, 2, 3, 4, 5, 6];
+
+const firstDOW = startOfWeek(new Date())
 
 function joinDataByHours(value1: Record<THour, number>, value2: Record<THour, number>) {
     const res = value1;
@@ -39,8 +42,8 @@ export function OnlineFollowersChart(props: OnlineFollowersChartProps) {
     const { user } = useUser();
 
     const onlineFollowers = useQuery({
-        queryKey: ['online-followers', id],
-        queryFn: () => Api.getAccountOnlineFollowers({
+        queryKey: ['insights-online-followers', id],
+        queryFn: () => api.getAccountOnlineFollowers({
             userId: user!.id,
             accountId: id,
             period: {
@@ -62,11 +65,11 @@ export function OnlineFollowersChart(props: OnlineFollowersChartProps) {
 function OnlineFollowersChartContent(props: OnlineFollowersChartContentProps) {
     const { data } = props;
 
-    const [day, setDay] = useState<DayOfWeek>('Monday');
+    const [day, setDay] = useState<DayOfWeek>(0);
 
     const values = useMemo(() => {
         return data.values.reduce((res, value) => {
-            const dayOfWeek = format(new Date(value.end_time), 'eeee') as DayOfWeek;
+            const dayOfWeek = getDay(new Date(value.end_time));
 
             if(!res[dayOfWeek]) {
                 res[dayOfWeek] = value.value;
@@ -93,16 +96,17 @@ function OnlineFollowersChartContent(props: OnlineFollowersChartContentProps) {
             <ToggleGroup
                 className="mb-4"
                 type="single"
-                value={day}
-                onValueChange={(day) => setDay(day as DayOfWeek)}
+                value={String(day)}
+                onValueChange={(day) => setDay(Number(day) as DayOfWeek)}
             >
                 {daysOfWeek.map(day => {
                     return (
                         <ToggleGroupItem
+                            className="capitalize"
                             key={day}
-                            value={day}
+                            value={String(day)}
                         >
-                            {day}
+                            {formatDate(addDays(firstDOW, day), 'eeee')}
                         </ToggleGroupItem>
                     );
                 })}

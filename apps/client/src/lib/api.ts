@@ -1,9 +1,5 @@
-import axios from "axios";
-
-const api = axios.create({
-    withCredentials: true,
-    baseURL: "/api",
-});
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import i18next from "i18next";
 
 interface IAccount {
     id: string;
@@ -57,36 +53,68 @@ export interface IAccountFollowersCount {
 }
 
 
-export const Api = {
+class Api {
+    get headers() {
+        return {
+            'Accept-Language': i18next.language
+        }
+    }
+
+    private get<T = unknown, R = AxiosResponse<T>>(url: string, config: AxiosRequestConfig = {}): Promise<R> {
+        return axios.get(url, {
+            ...config,
+            withCredentials: true,
+            baseURL: "/api",
+            headers: {
+                ...config.headers,
+                ...this.headers
+            }
+        });
+    }
+
+    private post<T = unknown, R = AxiosResponse<T>, D = unknown>(url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<R> {
+        return axios.post(url, data, {
+            ...config,
+            withCredentials: true,
+            baseURL: "/api",
+            headers: {
+                ...config?.headers,
+                ...this.headers
+            }
+        });
+    }
+
     async getAccounts(userId: string) {
-        return (await api.get<IAccount[]>('/instagram', { params: { userId } })).data
-    },
+        return (await this.get<IAccount[]>('/instagram', { params: { userId } })).data
+    }
 
     async createAccounts({ userId, token }: { userId: string, token: string }) {
-        return (await api.post(`/instagram`, { userId, token })).data
-    },
+        return (await this.post(`/instagram`, { userId, token })).data
+    }
 
     async getAccountInsights({ accountId, userId, period }: { accountId: string, userId: string, period: { since: number, until: number } }) {
-        return (await api.get<IAccountInsights[]>(`/instagram/${accountId}/insights`, {
+        return (await this.get<IAccountInsights[]>(`/instagram/${accountId}/insights`, {
             params: { userId, period }
         })).data
-    },
+    }
 
     async getAccountInteractions({ accountId, userId, period }: { accountId: string, userId: string, period: { since: number, until: number } }) {
-        return (await api.get<IAccountInsights[]>(`/instagram/${accountId}/interactions`, {
+        return (await this.get<IAccountInsights[]>(`/instagram/${accountId}/interactions`, {
             params: { userId, period }
         })).data
-    },
+    }
 
     async getAccountOnlineFollowers({ accountId, userId, period }: { accountId: string, userId: string, period: { since: number, until: number } }) {
-        return (await api.get<IAccountOnlineFollowers>(`/instagram/${accountId}/online-followers`, {
+        return (await this.get<IAccountOnlineFollowers>(`/instagram/${accountId}/online-followers`, {
             params: { userId, period }
         })).data
-    },
+    }
 
     async getAccountFollowersCount({ accountId, userId, period }: { accountId: string, userId: string, period: { since: number, until: number } }) {
-        return (await api.get<IAccountFollowersCount>(`/instagram/${accountId}/followers-count`, {
+        return (await this.get<IAccountFollowersCount>(`/instagram/${accountId}/followers-count`, {
             params: { userId, period }
         })).data
     }
 }
+
+export const api = new Api();

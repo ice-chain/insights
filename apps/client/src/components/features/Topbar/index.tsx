@@ -1,7 +1,7 @@
 import { UserButton } from '@clerk/clerk-react';
 import { Logo } from '@/components/shared/Logo';
 import { ThemeToggle } from '@/components/features/ThemeToggle';
-import { LangSwitcher } from '@/components/features/LangSwitcher';
+import { LangToggle } from '@/components/features/LangToggle';
 
 function Topbar() {
     return (
@@ -9,7 +9,7 @@ function Topbar() {
             <Logo />
             <div className="flex items-center gap-10">
                 <div className="flex items-center gap-2">
-                    <LangSwitcher />
+                    <LangToggle />
                     <ThemeToggle />
                 </div>
                 <UserButton

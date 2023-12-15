@@ -2,9 +2,12 @@ import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { ChartsDemo } from '@/components/features/ChartsStubs';
 import { useUser } from "@clerk/clerk-react";
+import { useTranslation } from "react-i18next";
 
 export function GetStarted() {
   const { isSignedIn, isLoaded } = useUser();
+
+  const  { t } = useTranslation();
 
   if (!isLoaded) {
     return null;
@@ -14,11 +17,11 @@ export function GetStarted() {
     <div className="flex mt-12">
       <div>
         <p className="text-6xl max-w-2xl">
-          Enhanced insights for the Instagram
+          {t('getStarted.title')}
+
         </p>
         <p className="text-md max-w-xl mt-12">
-          Manage all your instagram accounts from one place.
-          Discover and grow faster with this intuitive tool, analyze your data and make smarter decisions.
+          {t('getStarted.description')}
         </p>
         <Button
           asChild
@@ -29,7 +32,7 @@ export function GetStarted() {
             className="inline-flex items-center"
             to={isSignedIn ? "/dashboard" : "/sign-up"}
           >
-            Get started
+            {t('getStarted.action')}
           </Link>
         </Button>
       </div>

@@ -3,7 +3,8 @@ import ConnectInstagram from "@/components/features/ConnectInstagram";
 import { useState } from "react";
 import { UserCardSkeleton } from "@/components/shared/UserCardSkeleton";
 import { useQuery } from "@tanstack/react-query";
-import { Api } from "@/lib/api";
+import { api } from "@/lib/api";
+import { useTranslation } from "react-i18next";
 
 interface AccountsListProps {
     userId: string;
@@ -12,11 +13,13 @@ interface AccountsListProps {
 export function AccountsList(props: AccountsListProps) {
     const { userId } = props;
 
+    const { t } = useTranslation();
+
     const [newAccountLoading, setNewAccountLoading] = useState(false);
 
     const { data, isError, isPending, isSuccess } = useQuery({
         queryKey: ['accounts', userId],
-        queryFn: () => Api.getAccounts(userId),
+        queryFn: () => api.getAccounts(userId),
     });
 
     if (isError) {
@@ -37,7 +40,7 @@ export function AccountsList(props: AccountsListProps) {
         <>
             {noAccounts && (
                 <p className="mb-10">
-                    Let&apos;s connect some Instagram profiles here. Add as many as you want.
+                    {t('accountList.connect')}
                 </p>
             )}
             <div className="grid grid-cols-4 gap-4">

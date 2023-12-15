@@ -34,7 +34,12 @@ enum InstagramInsightsMetrics {
   profile_links_taps = 'profile_links_taps',
 }
 
-type InstagramInsightsDto = { period: { since: number, until: number }, userId:string, id:string };
+type InstagramInsightsDto = {
+  period: { since: number, until: number };
+  userId: string;
+  id:string;
+  locale?: string;
+};
 
 type FacebookAccount = {
   data: {
@@ -218,7 +223,7 @@ export class InstagramService {
     };
   }
 
-  async findInsightsOverview({ period, userId, id }: InstagramInsightsDto) {
+  async findInsightsOverview({ period, userId, id, locale }: InstagramInsightsDto) {
     const accountData = await this.getAccountData(id);
 
     this.checkPermissions(accountData.userId, userId);
@@ -243,6 +248,7 @@ export class InstagramService {
           until: period.until,
           period: InstagramInsightsResult.Period.day,
           metric_type: InstagramInsightsResult.MetricType.total_value,
+          locale,
       }
     );
 
@@ -270,7 +276,7 @@ export class InstagramService {
     });
   }
 
-  async findInsightsInteractions({ period, userId, id }: InstagramInsightsDto) {
+  async findInsightsInteractions({ period, userId, id, locale }: InstagramInsightsDto) {
     const accountData = await this.getAccountData(id);
 
     this.checkPermissions(accountData.userId, userId);
@@ -297,11 +303,11 @@ export class InstagramService {
         until: period.until,
         period: InstagramInsightsResult.Period.day,
         breakdown: 'media_product_type',
+        locale,
       }
     );
 
     const result = insightsCursor.map(metric => {
-      console.log(metric);
       return {
         id: metric.id,
         name: metric.name,
@@ -314,7 +320,7 @@ export class InstagramService {
     return result;
   }
 
-  async findInsightsFollowersOnline({ period, userId, id }: InstagramInsightsDto) {
+  async findInsightsFollowersOnline({ period, userId, id, locale }: InstagramInsightsDto) {
     const accountData = await this.getAccountData(id);
 
     this.checkPermissions(accountData.userId, userId);
@@ -335,6 +341,7 @@ export class InstagramService {
         since: period.since,
         until: period.until,
         period: InstagramInsightsResult.Period.lifetime,
+        locale,
       }
     );
 
@@ -347,7 +354,7 @@ export class InstagramService {
     }
   }
 
-  async findInsightsFollowersCount({ period, userId, id }: InstagramInsightsDto) {
+  async findInsightsFollowersCount({ period, userId, id, locale }: InstagramInsightsDto) {
     const accountData = await this.getAccountData(id);
 
     this.checkPermissions(accountData.userId, userId);
@@ -368,6 +375,7 @@ export class InstagramService {
         since: period.since,
         until: period.until,
         period: InstagramInsightsResult.Period.day,
+        locale,
       }
     );
 

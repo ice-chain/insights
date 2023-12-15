@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ForbiddenException, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ForbiddenException, Query, Headers } from '@nestjs/common';
 import { InstagramService } from './instagram.service';
 import { CreateInstagramDto } from './dto/create-instagram.dto';
 import { UpdateInstagramDto } from './dto/update-instagram.dto';
@@ -44,13 +44,14 @@ export class InstagramController {
     @Auth() auth: SignedOutAuthObject,
     @Param('id') id: string,
     @Query('userId') userId: string,
-    @Query('period') period: { since: number, until: number }
+    @Query('period') period: { since: number, until: number },
+    @Headers('accept-language') locale: string,
   ) {
     if (userId !== auth.userId) {
       return new ForbiddenException();
     }
 
-    return this.instagramService.findInsightsOverview({ period, userId, id });
+    return this.instagramService.findInsightsOverview({ period, userId, id, locale });
   }
 
 
@@ -59,13 +60,14 @@ export class InstagramController {
     @Auth() auth: SignedOutAuthObject,
     @Param('id') id: string,
     @Query('userId') userId: string,
-    @Query('period') period: { since: number, until: number }
+    @Query('period') period: { since: number, until: number },
+    @Headers('accept-language') locale: string,
   ) {
     if (userId !== auth.userId) {
       return new ForbiddenException();
     }
 
-    return this.instagramService.findInsightsInteractions({ period, userId, id });
+    return this.instagramService.findInsightsInteractions({ period, userId, id, locale });
   }
 
 
@@ -74,13 +76,14 @@ export class InstagramController {
     @Auth() auth: SignedOutAuthObject,
     @Param('id') id: string,
     @Query('userId') userId: string,
-    @Query('period') period: { since: number, until: number }
+    @Query('period') period: { since: number, until: number },
+    @Headers('accept-language') locale: string,
   ) {
     if (userId !== auth.userId) {
       return new ForbiddenException();
     }
 
-    return this.instagramService.findInsightsFollowersOnline({ period, userId, id });
+    return this.instagramService.findInsightsFollowersOnline({ period, userId, id, locale });
   }
 
   @Get(':id/followers-count')
@@ -88,12 +91,13 @@ export class InstagramController {
     @Auth() auth: SignedOutAuthObject,
     @Param('id') id: string,
     @Query('userId') userId: string,
-    @Query('period') period: { since: number, until: number }
+    @Query('period') period: { since: number, until: number },
+    @Headers('accept-language') locale: string,
   ) {
     if (userId !== auth.userId) {
       return new ForbiddenException();
     }
 
-    return this.instagramService.findInsightsFollowersCount({ period, userId, id });
+    return this.instagramService.findInsightsFollowersCount({ period, userId, id, locale });
   }
 }

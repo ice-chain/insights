@@ -1,7 +1,9 @@
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useTranslation } from 'react-i18next';
 
 export function UserCardSkeleton() {
+    const { t } = useTranslation();
     return (
         <article className={cn("flex gap-12 p-4 rounded-3xl justify-center bg-secondary")}>
             <div className="flex flex-col gap-3 w-full items-center">
@@ -14,19 +16,20 @@ export function UserCardSkeleton() {
                     <div className="flex flex-col gap-1 items-center">
                         <Skeleton className="bg-primary h-4 w-8" />
                         <span className="text-muted-foreground">
-                            Followers
+                            {t('userCard.followers')}
+
                         </span>
                     </div>
                     <div className="flex flex-col gap-1 items-center">
                         <Skeleton className="bg-primary h-4 w-8" />
                         <span className="text-muted-foreground">
-                            Posts
+                            {t('userCard.posts')}
                         </span>
                     </div>
                     <div className="flex flex-col gap-1 items-center">
                         <Skeleton className="bg-primary h-4 w-8" />
                         <span className="text-muted-foreground">
-                            Follows
+                            {t('userCard.follows')}
                         </span>
                     </div>
                 </div>
@@ -34,4 +37,3 @@ export function UserCardSkeleton() {
         </article>
     );
 }
-

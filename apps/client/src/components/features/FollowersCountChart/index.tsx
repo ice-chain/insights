@@ -1,10 +1,11 @@
 import { useMemo } from "react";
-import { addDays, format } from "date-fns";
+import { addDays } from "date-fns";
 import { Area, AreaChart, ReferenceLine, ResponsiveContainer, XAxis, YAxis } from "recharts";
-import { Api, IAccountFollowersCount } from "@/lib/api";
+import { api, IAccountFollowersCount } from "@/lib/api";
 import { useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import { ChartLoader } from "../ChartLoader";
+import { formatDate } from "@/lib/date";
 
 interface FollowersCountChartProps {
     id: string;
@@ -20,8 +21,8 @@ export function FollowersCountChart(props: FollowersCountChartProps) {
     const { user } = useUser();
 
     const followersCountQuery = useQuery({
-        queryKey: ['followers-count', id],
-        queryFn: () => Api.getAccountFollowersCount({
+        queryKey: ['insights-followers-count', id],
+        queryFn: () => api.getAccountFollowersCount({
             userId: user!.id,
             accountId: id,
             period: {
@@ -46,7 +47,7 @@ function FollowersCountChartContent(props: FollowersCountChartContentProps) {
         return data.values.map(({ value, end_time }) => {
             return {
                 value,
-                time: format(new Date(end_time), 'd MMM'),
+                time: formatDate(new Date(end_time), 'd MMM'),
             };
         })
     }, [data.values]);

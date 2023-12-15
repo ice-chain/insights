@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { addDays, format } from "date-fns";
 import { Area, AreaChart, ReferenceLine, ResponsiveContainer, XAxis, YAxis } from "recharts";
-import { Api, IAccountInsights } from "@/lib/api";
+import { api, IAccountInsights } from "@/lib/api";
 import { useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import { ChartLoader } from "../ChartLoader";
@@ -20,8 +20,8 @@ export function InteractionsChart(props: InteractionsChartProps) {
     const { user } = useUser();
 
     const interactionsQuery = useQuery({
-        queryKey: ['interactions', id],
-        queryFn: () => Api.getAccountInteractions({
+        queryKey: ['insights-interactions', id],
+        queryFn: () => api.getAccountInteractions({
             userId: user!.id,
             accountId: id,
             period: {

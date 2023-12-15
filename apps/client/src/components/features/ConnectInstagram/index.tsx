@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { Plus } from "lucide-react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
-import { Api } from "@/lib/api";
+import { api } from "@/lib/api";
+import { useTranslation } from "react-i18next";
 
 const FB_APP_ID = import.meta.env.VITE_FB_APP_ID;
 const { href } = window.location;
@@ -34,7 +35,7 @@ function ConnectInstagram(props: ConnectInstagramProps) {
     const routerState = useRouterState();
 
     const mutation = useMutation({
-        mutationFn: Api.createAccounts,
+        mutationFn: api.createAccounts,
         onSuccess: onLoadSuccess,
         onError: onLoadError,
     });
@@ -58,14 +59,15 @@ function ConnectInstagram(props: ConnectInstagramProps) {
         }
     }, [hash, pathname, navigate, onLoad, accessToken, mutation, userId]);
 
+    const { t } = useTranslation();
+
     return (
         <div
             className="flex justify-center items-center p-4 bg-secondary rounded-3xl hover:cursor-pointer"
-            title="Add account"
+            title={t('connectInstagram.add')}
         >
             <Link
                 to={authUrl.toString()}
-                title="Login to Facebook"
             >
                 <Plus size={36} strokeWidth={2} />
             </Link>

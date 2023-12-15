@@ -1,6 +1,7 @@
 import { useNavigate } from '@tanstack/react-router';
 import UserPic from '../UserPic';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface UserCardProps {
     id: string;
@@ -25,6 +26,7 @@ function UserCard(props: UserCardProps) {
         className,
     } = props;
 
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     return (
@@ -59,7 +61,7 @@ function UserCard(props: UserCardProps) {
                             {followers}
                         </span>
                         <span className="text-muted-foreground">
-                            Followers
+                            {t('userCard.followers')}
                         </span>
                     </div>
                     <div className="flex flex-col gap-1 items-center">
@@ -67,7 +69,7 @@ function UserCard(props: UserCardProps) {
                             {posts}
                         </span>
                         <span className="text-muted-foreground">
-                            Posts
+                            {t('userCard.posts')}
                         </span>
                     </div>
                     <div className="flex flex-col gap-1 items-center">
@@ -75,7 +77,7 @@ function UserCard(props: UserCardProps) {
                             {follows}
                         </span>
                         <span className="text-muted-foreground">
-                            Follows
+                            {t('userCard.follows')}
                         </span>
                     </div>
                 </div>
