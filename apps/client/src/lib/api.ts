@@ -18,7 +18,24 @@ export interface IAccountInsights {
     description: string;
     title: string;
     totalValue: number;
-    diff?: number | null;
+    diff: number | null;
+}
+
+
+export interface IAccountInteractions {
+    id: string;
+    name: string;
+    description: string;
+    title: string;
+    totalValue: {
+        value: number;
+        breakdowns: {
+            results?: {
+                value: number;
+                dimension_values: 'POST' | 'REELS' | 'AD' | 'STORY'[]
+            }[]
+        }[];
+    };
 }
 
 type TInsightName =
@@ -99,7 +116,7 @@ class Api {
     }
 
     async getAccountInteractions({ accountId, userId, period }: { accountId: string, userId: string, period: { since: number, until: number } }) {
-        return (await this.get<IAccountInsights[]>(`/instagram/${accountId}/interactions`, {
+        return (await this.get<IAccountInteractions[]>(`/instagram/${accountId}/interactions`, {
             params: { userId, period }
         })).data
     }

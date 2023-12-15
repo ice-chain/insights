@@ -1,7 +1,6 @@
-import { useMemo } from "react";
-import { addDays, format } from "date-fns";
-import { Area, AreaChart, ReferenceLine, ResponsiveContainer, XAxis, YAxis } from "recharts";
-import { api, IAccountInsights } from "@/lib/api";
+import { addDays } from "date-fns";
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from "recharts";
+import { api, IAccountInteractions } from "@/lib/api";
 import { useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import { ChartLoader } from "../ChartLoader";
@@ -11,7 +10,7 @@ interface InteractionsChartProps {
 }
 
 interface InteractionsChartContentProps {
-    data: IAccountInsights[];
+    data: IAccountInteractions[];
 }
 
 export function InteractionsChart(props: InteractionsChartProps) {
@@ -42,31 +41,77 @@ export function InteractionsChart(props: InteractionsChartProps) {
 function InteractionsChartContent(props: InteractionsChartContentProps) {
     const { data } = props;
 
-    // const values = useMemo(() => {
-    //     return data.map(({ totalValue }) => {
-    //         return {
-    //             value,
-    //             time: format(new Date(end_time), 'd MMM'),
-    //         };
-    //     })
-    // }, [data]);
-
     return (
-        'lol'
-        // <ResponsiveContainer height={300}>
-        //     <AreaChart data={values}>
-        //         <XAxis dataKey="time" />
-        //         <YAxis
-        //             type="number"
-        //             allowDecimals={false}
-        //             domain={([dataMin, dataMax]) => {
-        //                 const absMax = Math.max(Math.abs(dataMin), Math.abs(dataMax));
-        //                 return [-absMax, absMax];
-        //             }}
-        //         />
-        //         <ReferenceLine y={0} stroke="white" />
-        //         <Area type="monotone" dataKey="value" stroke="#8884d8" fillOpacity={1} fill="#8884d8" />
-        //     </AreaChart>
-        // </ResponsiveContainer>
+        <>
+            {data.map(metric => {
+                const { value, breakdowns } = metric.totalValue;
+
+                const data = (breakdowns[0].results ?? []).map(({ value, dimension_values }) => {
+                    return {
+                        value,
+                        mediaType: dimension_values[0],
+                    };
+                });
+
+                return (
+                    <ResponsiveContainer
+                        height={300}
+                        key={metric.id}
+                    >
+                        <PieChart>
+                            <defs>
+                                <linearGradient id="colorPie-POST" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%" stopColor="#D300C5" stopOpacity={0.8} />
+                                    <stop offset="95%" stopColor="#7638FA" stopOpacity={0.8} />
+                                </linearGradient>
+                                <linearGradient id="colorPie-REELS" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%" stopColor="#FF0169" stopOpacity={0.8} />
+                                    <stop offset="95%" stopColor="#FF7A00" stopOpacity={0.8} />
+                                </linearGradient>
+                                <linearGradient id="colorPie-STORY" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%" stopColor="#FFD600" stopOpacity={0.8} />
+                                    <stop offset="95%" stopColor="#FF7A00" stopOpacity={0.8} />
+                                </linearGradient>
+                            </defs>
+                            <text x="50%" y="43%" textAnchor="middle" fill="#ddd">
+                                {value}
+                            </text>
+                            <text x="50%" y="50%" textAnchor="middle" fill="#ddd">
+                                {metric.title}
+                            </text>
+                            {data.length === 0 ? (
+                                <Pie
+                                    data={[{ value: 1, mediaType: 'No data' }]}
+                                    dataKey="value"
+                                    nameKey="mediaType"
+                                    innerRadius={60}
+                                    outerRadius={80}
+                                    fill="#333"
+                                    strokeWidth={0}
+
+                                />
+                            ) : (
+                                <Pie
+                                    data={data}
+                                    dataKey="value"
+                                    nameKey="mediaType"
+                                    innerRadius={60}
+                                    outerRadius={80}
+                                >
+                                    {data.map(({ mediaType }) => (
+                                        <Cell
+                                            key={`cell-${mediaType}`}
+                                            fill={`url(#colorPie-${mediaType})`}
+                                            strokeWidth={0}
+                                        />
+                                    ))}
+                                </Pie>
+                            )}
+                            <Legend verticalAlign="bottom" height={36} iconType="circle" />
+                        </PieChart>
+                    </ResponsiveContainer>
+                );
+            })}
+        </>
     );
 }

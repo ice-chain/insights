@@ -71,6 +71,8 @@ export function Account() {
                         <FollowersCountChart
                             id={params.id}
                         />
+                    </div>
+                    <div className="grid gap-4 grid-cols-4 w-full h-3/6">
                         <InteractionsChart
                             id={params.id}
                         />
