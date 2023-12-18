@@ -6,9 +6,11 @@ import { useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import { ChartLoader } from "../ChartLoader";
 import { formatDate } from "@/lib/date";
+import { DateRange } from "react-day-picker";
 
 interface FollowersCountChartProps {
     id: string;
+    period?: DateRange;
 }
 
 interface FollowersCountChartContentProps {
@@ -16,7 +18,7 @@ interface FollowersCountChartContentProps {
 }
 
 export function FollowersCountChart(props: FollowersCountChartProps) {
-    const { id } = props;
+    const { id, period } = props;
 
     const { user } = useUser();
 
@@ -25,10 +27,7 @@ export function FollowersCountChart(props: FollowersCountChartProps) {
         queryFn: () => api.getAccountFollowersCount({
             userId: user!.id,
             accountId: id,
-            period: {
-                since: Math.floor(addDays(new Date(), -7).getTime() / 1000),
-                until: Math.floor(new Date().getTime() / 1000),
-            }
+            period,
         })
     });
 

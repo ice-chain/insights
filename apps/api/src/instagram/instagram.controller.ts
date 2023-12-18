@@ -39,7 +39,7 @@ export class InstagramController {
     return this.instagramService.findOne(id);
   }
 
-  @Get(':id/insights')
+  @Get(':id/overview')
   findInsightsOverview(
     @Auth() auth: SignedOutAuthObject,
     @Param('id') id: string,

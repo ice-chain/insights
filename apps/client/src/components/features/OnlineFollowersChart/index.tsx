@@ -8,9 +8,11 @@ import { useQuery } from "@tanstack/react-query";
 import isEmpty from 'lodash.isempty';
 import { ChartLoader } from "../ChartLoader";
 import { formatDate } from "@/lib/date";
+import { DateRange } from "react-day-picker";
 
 interface OnlineFollowersChartProps {
     id: string;
+    period?: DateRange;
 }
 
 interface OnlineFollowersChartContentProps {
@@ -37,7 +39,7 @@ function joinDataByHours(value1: Record<THour, number>, value2: Record<THour, nu
 }
 
 export function OnlineFollowersChart(props: OnlineFollowersChartProps) {
-    const { id } = props;
+    const { id, period } = props;
 
     const { user } = useUser();
 
@@ -46,10 +48,7 @@ export function OnlineFollowersChart(props: OnlineFollowersChartProps) {
         queryFn: () => api.getAccountOnlineFollowers({
             userId: user!.id,
             accountId: id,
-            period: {
-                since: Math.floor(addDays(new Date(), -7).getTime() / 1000),
-                until: Math.floor(new Date().getTime() / 1000),
-            }
+            period
         })
     });
 

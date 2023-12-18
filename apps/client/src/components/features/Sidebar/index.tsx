@@ -23,7 +23,7 @@ export function Sidebar(props: SidebarProps) {
     } = props;
 
     return (
-        <aside className={cn(className, "bg-secondary rounded-3xl p-2 sticky top-10 h-[calc(100vh-theme(space.20))]")}>
+        <aside className={cn(className, "bg-secondary rounded-3xl p-2 sticky top-10 h-[calc(100vh-theme(space.20))] z-30")}>
             <div>
                 <Select defaultValue={accountId}>
                     <SelectTrigger className="focus:ring-0 bg-transparent ring-offset-secondary border-b-1 border-zinc-300 border-t-0 border-r-0 border-l-0 h-auto rounded-none">

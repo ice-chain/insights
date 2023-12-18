@@ -1,5 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import i18next from "i18next";
+import { convertPeriod } from "./date";
+import { DateRange } from "react-day-picker";
 
 interface IAccount {
     id: string;
@@ -69,6 +71,11 @@ export interface IAccountFollowersCount {
     }[]
 }
 
+interface IInsightsParams {
+    accountId: string;
+    userId: string;
+    period?: DateRange;
+}
 
 class Api {
     get headers() {
@@ -101,6 +108,21 @@ class Api {
         });
     }
 
+    private async getAccountInsights<T>(slug: string, params: IInsightsParams) {
+        const { accountId, userId, period } = params;
+        console.log('>>>>', {slug, period});
+
+
+        const result = await this.get<T>(`/instagram/${accountId}/${slug}`, {
+            params: {
+                userId,
+                period: convertPeriod(period)
+            }
+        });
+
+        return result.data;
+    }
+
     async getAccounts(userId: string) {
         return (await this.get<IAccount[]>('/instagram', { params: { userId } })).data
     }
@@ -109,28 +131,20 @@ class Api {
         return (await this.post(`/instagram`, { userId, token })).data
     }
 
-    async getAccountInsights({ accountId, userId, period }: { accountId: string, userId: string, period: { since: number, until: number } }) {
-        return (await this.get<IAccountInsights[]>(`/instagram/${accountId}/insights`, {
-            params: { userId, period }
-        })).data
+    async getAccountInsightsOverview(params: IInsightsParams) {
+        return this.getAccountInsights<IAccountInsights[]>('overview', params);
     }
 
-    async getAccountInteractions({ accountId, userId, period }: { accountId: string, userId: string, period: { since: number, until: number } }) {
-        return (await this.get<IAccountInteractions[]>(`/instagram/${accountId}/interactions`, {
-            params: { userId, period }
-        })).data
+    async getAccountInteractions(params: IInsightsParams) {
+        return this.getAccountInsights<IAccountInteractions[]>('interactions', params);
     }
 
-    async getAccountOnlineFollowers({ accountId, userId, period }: { accountId: string, userId: string, period: { since: number, until: number } }) {
-        return (await this.get<IAccountOnlineFollowers>(`/instagram/${accountId}/online-followers`, {
-            params: { userId, period }
-        })).data
+    async getAccountOnlineFollowers(params: IInsightsParams) {
+        return this.getAccountInsights<IAccountOnlineFollowers>('online-followers', params);
     }
 
-    async getAccountFollowersCount({ accountId, userId, period }: { accountId: string, userId: string, period: { since: number, until: number } }) {
-        return (await this.get<IAccountFollowersCount>(`/instagram/${accountId}/followers-count`, {
-            params: { userId, period }
-        })).data
+    async getAccountFollowersCount(params: IInsightsParams) {
+        return this.getAccountInsights<IAccountFollowersCount>('followers-count', params);
     }
 }
 

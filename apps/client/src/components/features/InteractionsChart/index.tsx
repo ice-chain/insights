@@ -1,12 +1,13 @@
-import { addDays } from "date-fns";
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from "recharts";
 import { api, IAccountInteractions } from "@/lib/api";
 import { useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import { ChartLoader } from "../ChartLoader";
+import { DateRange } from "react-day-picker";
 
 interface InteractionsChartProps {
     id: string;
+    period?: DateRange;
 }
 
 interface InteractionsChartContentProps {
@@ -14,7 +15,7 @@ interface InteractionsChartContentProps {
 }
 
 export function InteractionsChart(props: InteractionsChartProps) {
-    const { id } = props;
+    const { id, period } = props;
 
     const { user } = useUser();
 
@@ -23,10 +24,7 @@ export function InteractionsChart(props: InteractionsChartProps) {
         queryFn: () => api.getAccountInteractions({
             userId: user!.id,
             accountId: id,
-            period: {
-                since: Math.floor(addDays(new Date(), -7).getTime() / 1000),
-                until: Math.floor(new Date().getTime() / 1000),
-            }
+            period,
         })
     });
 
@@ -64,7 +62,7 @@ function InteractionsChartContent(props: InteractionsChartContentProps) {
                                     <stop offset="5%" stopColor="#D300C5" stopOpacity={0.8} />
                                     <stop offset="95%" stopColor="#7638FA" stopOpacity={0.8} />
                                 </linearGradient>
-                                <linearGradient id="colorPie-REELS" x1="0" y1="0" x2="0" y2="1">
+                                <linearGradient id="colorPie-REEL" x1="0" y1="0" x2="0" y2="1">
                                     <stop offset="5%" stopColor="#FF0169" stopOpacity={0.8} />
                                     <stop offset="95%" stopColor="#FF7A00" stopOpacity={0.8} />
                                 </linearGradient>

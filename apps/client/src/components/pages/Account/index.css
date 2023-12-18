@@ -1,0 +1,22 @@
+.sticky-topbar {
+    @apply sticky top-0 pb-4 px-4 -mx-4 bg-background z-20;
+}
+
+.sticky-topbar:before,
+.sticky-topbar:after {
+    @apply absolute h-10 w-10 -bottom-10 shadow-background;
+    content: "";
+}
+
+.sticky-topbar:before {
+    @apply left-4;
+    border-top-left-radius: 50%;
+    box-shadow: -10px -10px 0 0 var(--tw-shadow-color);;
+}
+
+.sticky-topbar:after {
+    @apply right-4;
+    content: "";
+    border-top-right-radius: 50%;
+    box-shadow: 10px -10px 0 0 var(--tw-shadow-color);
+}
