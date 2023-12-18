@@ -1,7 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ForbiddenException, Query, Headers } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards, ForbiddenException, Query, Headers } from '@nestjs/common';
 import { InstagramService } from './instagram.service';
 import { CreateInstagramDto } from './dto/create-instagram.dto';
-import { UpdateInstagramDto } from './dto/update-instagram.dto';
 import { Auth, AuthGuard } from 'src/clerk/clerk.guard';
 import { SignedOutAuthObject } from '@clerk/clerk-sdk-node';
 
