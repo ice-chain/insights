@@ -1,81 +1,8 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import i18next from "i18next";
 import { convertPeriod } from "./date";
-import { DateRange } from "react-day-picker";
-
-interface IAccount {
-    id: string;
-    name: string;
-    username: string;
-    pictureUrl: string;
-    posts: string | number,
-    follows: string | number,
-    followers: string | number,
-    provider: 'instagram';
-}
-
-export interface IAccountInsights {
-    id: string;
-    name: TInsightName;
-    description: string;
-    title: string;
-    totalValue: number;
-    diff: number | null;
-}
-
-
-export interface IAccountInteractions {
-    id: string;
-    name: string;
-    description: string;
-    title: string;
-    totalValue: {
-        value: number;
-        breakdowns: {
-            results?: {
-                value: number;
-                dimension_values: 'POST' | 'REELS' | 'AD' | 'STORY'[]
-            }[]
-        }[];
-    };
-}
-
-type TInsightName =
-| 'reach'
-| 'impressions'
-| 'accounts_engaged'
-| 'profile_views';
-
-
-export type THour = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12' | '13' | '14' | '15' | '16' | '17' | '18' | '19' | '20' | '21' | '22' | '23';
-
-export interface IAccountOnlineFollowers {
-    id: string;
-    name: TInsightName;
-    description: string;
-    title: string;
-    values: {
-        value: Record<THour, number>;
-        end_time: string;
-    }[]
-}
-
-export interface IAccountFollowersCount {
-    id: string;
-    name: TInsightName;
-    description: string;
-    title: string;
-    values: {
-        value: Record<THour, number>;
-        end_time: string;
-    }[]
-}
-
-interface IInsightsParams {
-    accountId: string;
-    userId: string;
-    period?: DateRange;
-}
+import { IAccount, IAccountFollowersCount, IAccountInteractions, IAccountOnlineFollowers, IAccountOverview } from '@repo/types';
+import { IAccountParams, IInsightsParams } from "@/types/api";
 
 class Api {
     get headers() {
@@ -110,8 +37,6 @@ class Api {
 
     private async getAccountInsights<T>(slug: string, params: IInsightsParams) {
         const { accountId, userId, period } = params;
-        console.log('>>>>', {slug, period});
-
 
         const result = await this.get<T>(`/instagram/${accountId}/${slug}`, {
             params: {
@@ -127,12 +52,12 @@ class Api {
         return (await this.get<IAccount[]>('/instagram', { params: { userId } })).data
     }
 
-    async createAccounts({ userId, token }: { userId: string, token: string }) {
+    async createAccounts({ userId, token }: IAccountParams) {
         return (await this.post(`/instagram`, { userId, token })).data
     }
 
     async getAccountInsightsOverview(params: IInsightsParams) {
-        return this.getAccountInsights<IAccountInsights[]>('overview', params);
+        return this.getAccountInsights<IAccountOverview[]>('overview', params);
     }
 
     async getAccountInteractions(params: IInsightsParams) {

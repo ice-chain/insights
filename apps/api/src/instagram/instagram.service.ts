@@ -1,65 +1,14 @@
+import { FacebookAdsApi, IGUser, InstagramInsightsResult } from 'facebook-nodejs-business-sdk';
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { CreateInstagramDto } from './dto/create-instagram.dto';
+import { IAccountFollowersCount, IAccountInteractions, IAccountOnlineFollowers, IAccountOverview } from '@repo/types';
 import { decrypt, encrypt } from 'lib/enctypt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserService } from 'src/user/user.service';
-import { FacebookAdsApi, IGUser, InstagramInsightsResult } from 'facebook-nodejs-business-sdk';
-
-enum InstagramInsightsMetrics {
-  impressions = 'impressions',
-  reach = 'reach',
-  follower_count = 'follower_count',
-  email_contacts = 'email_contacts',
-  phone_call_clicks = 'phone_call_clicks',
-  text_message_clicks = 'text_message_clicks',
-  get_directions_clicks = 'get_directions_clicks',
-  website_clicks = 'website_clicks',
-  profile_views = 'profile_views',
-  audience_gender_age = 'audience_gender_age',
-  audience_locale = 'audience_locale',
-  audience_country = 'audience_country',
-  audience_city = 'audience_city',
-  online_followers = 'online_followers',
-  accounts_engaged = 'accounts_engaged',
-  total_interactions = 'total_interactions',
-  likes = 'likes',
-  comments = 'comments',
-  shares = 'shares',
-  saves = 'saves',
-  replies = 'replies',
-  engaged_audience_demographics = 'engaged_audience_demographics',
-  reached_audience_demographics = 'reached_audience_demographics',
-  follower_demographics = 'follower_demographics',
-  follows_and_unfollows = 'follows_and_unfollows',
-  profile_links_taps = 'profile_links_taps',
-}
-
-type InstagramInsightsDto = {
-  period: { since: number, until: number };
-  userId: string;
-  id:string;
-  locale?: string;
-};
-
-type FacebookAccount = {
-  data: {
-      instagram_business_account?: {
-        id: string;
-      }
-  }[]
-};
-
-type IGUserData = {
-  id: string;
-  name: string;
-  username: string;
-  profile_picture_url: string;
-  followers_count: string;
-  follows_count: string;
-  media_count: string;
-}
-
-
+import { CreateInstagramDto } from './dto/create-instagram.dto';
+import { InstagramInsightsDto } from './dto/get-insights.dto';
+import { InstagramUser } from './entities/instagram-user.entity';
+import { FacebookAccount } from './entities/facebook-account.entity';
+import { InstagramInsightsMetrics } from './entities/instagram-insights';
 
 @Injectable()
 export class InstagramService {
@@ -71,8 +20,6 @@ export class InstagramService {
   private CIPHER_KEY = process.env.CIPHER_KEY || '';
   private FB_APP_ID = process.env.FB_APP_ID || '';
   private FB_APP_SECRET = process.env.FB_APP_SECRET || '';
-
-  private
 
   private checkPermissions(accountUserId: string, currentUserId: string) {
     if(accountUserId !== currentUserId) {
@@ -141,7 +88,7 @@ export class InstagramService {
       const json =  await result.json();
 
       if (json.error) {
-          throw json.error;
+        throw json.error;
       }
 
       const { data }: FacebookAccount = json;
@@ -209,7 +156,7 @@ export class InstagramService {
       IGUser.Fields.followers_count,
       IGUser.Fields.follows_count,
       IGUser.Fields.media_count,
-    ]) as unknown as IGUserData;
+    ]) as unknown as InstagramUser;
 
     return {
       provider: 'instagram',
@@ -223,7 +170,7 @@ export class InstagramService {
     };
   }
 
-  async findInsightsOverview({ period, userId, id, locale }: InstagramInsightsDto) {
+  async findInsightsOverview({ period, userId, id, locale }: InstagramInsightsDto): Promise<IAccountOverview[]> {
     const accountData = await this.getAccountData(id);
 
     this.checkPermissions(accountData.userId, userId);
@@ -276,7 +223,7 @@ export class InstagramService {
     });
   }
 
-  async findInsightsInteractions({ period, userId, id, locale }: InstagramInsightsDto) {
+  async findInsightsInteractions({ period, userId, id, locale }: InstagramInsightsDto): Promise<IAccountInteractions[]> {
     const accountData = await this.getAccountData(id);
 
     this.checkPermissions(accountData.userId, userId);
@@ -320,7 +267,7 @@ export class InstagramService {
     return result;
   }
 
-  async findInsightsFollowersOnline({ period, userId, id, locale }: InstagramInsightsDto) {
+  async findInsightsFollowersOnline({ period, userId, id, locale }: InstagramInsightsDto): Promise<IAccountOnlineFollowers> {
     const accountData = await this.getAccountData(id);
 
     this.checkPermissions(accountData.userId, userId);
@@ -354,7 +301,7 @@ export class InstagramService {
     }
   }
 
-  async findInsightsFollowersCount({ period, userId, id, locale }: InstagramInsightsDto) {
+  async findInsightsFollowersCount({ period, userId, id, locale }: InstagramInsightsDto): Promise<IAccountFollowersCount> {
     const accountData = await this.getAccountData(id);
 
     this.checkPermissions(accountData.userId, userId);
