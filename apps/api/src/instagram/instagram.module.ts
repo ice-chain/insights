@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { InstagramService } from './instagram.service';
 import { InstagramController } from './instagram.controller';
-import { PrismaModule } from 'src/prisma/prisma.module';
-import { UserModule } from 'src/user/user.module';
+import { PrismaModule } from '../prisma/prisma.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [

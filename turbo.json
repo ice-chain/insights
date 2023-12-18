@@ -10,8 +10,8 @@
         ".env.local"
       ]
     },
-    "start:prod": {
-      "dependsOn": ["build"]
+    "start": {
+      "dependsOn": ["^build"]
     },
     "lint": {
       "dependsOn": ["^lint"]

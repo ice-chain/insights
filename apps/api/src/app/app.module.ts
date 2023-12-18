@@ -6,12 +6,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { InstagramModule } from '../instagram/instagram.module';
 import { UserModule } from '../user/user.module';
-import { WebhookModule } from 'src/webhook/webhook.module';
+import { WebhookModule } from '../webhook/webhook.module';
 
 @Module({
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../../..', 'client', 'dist'),
+      exclude: ['api/*'],
     }),
     ConfigModule.forRoot(),
     InstagramModule,

@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Param, UseGuards, ForbiddenException, Query, Headers } from '@nestjs/common';
+import { SignedOutAuthObject } from '@clerk/clerk-sdk-node';
 import { InstagramService } from './instagram.service';
 import { CreateInstagramDto } from './dto/create-instagram.dto';
-import { Auth, AuthGuard } from 'src/clerk/clerk.guard';
-import { SignedOutAuthObject } from '@clerk/clerk-sdk-node';
+import { Auth, AuthGuard } from '../clerk/clerk.guard';
 
 @UseGuards(AuthGuard)
 @Controller('instagram')

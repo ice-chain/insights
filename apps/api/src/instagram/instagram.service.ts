@@ -1,9 +1,9 @@
 import { FacebookAdsApi, IGUser, InstagramInsightsResult } from 'facebook-nodejs-business-sdk';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { IAccountFollowersCount, IAccountInteractions, IAccountOnlineFollowers, IAccountOverview } from '@repo/types';
-import { decrypt, encrypt } from 'src/lib/enctypt';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { UserService } from 'src/user/user.service';
+import { decrypt, encrypt } from '../lib/enctypt';
+import { PrismaService } from '../prisma/prisma.service';
+import { UserService } from '../user/user.service';
 import { CreateInstagramDto } from './dto/create-instagram.dto';
 import { InstagramInsightsDto } from './dto/get-insights.dto';
 import { InstagramUser } from './entities/instagram-user.entity';
