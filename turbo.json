@@ -4,7 +4,14 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**"],
+      "dotEnv": [
+        ".env",
+        ".env.local"
+      ]
+    },
+    "start:prod": {
+      "dependsOn": ["build"]
     },
     "lint": {
       "dependsOn": ["^lint"]

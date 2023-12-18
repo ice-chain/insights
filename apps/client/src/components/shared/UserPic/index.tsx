@@ -20,7 +20,8 @@ function UserPic(props: UserPicProps) {
 
     return (
         <Link
-            to={`/dashboard/${id}`}
+            to={`/dashboard/$id`}
+            params={{ id }}
             className="relative inline-block"
             style={{ width: size, height: size }}
             title={name}

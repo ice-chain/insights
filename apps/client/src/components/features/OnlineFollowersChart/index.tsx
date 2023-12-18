@@ -1,7 +1,7 @@
 import { addDays, getDay, startOfWeek } from "date-fns";
 import { Bar, BarChart, LabelList, ResponsiveContainer, XAxis } from "recharts";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { api, IAccountOnlineFollowers, THour } from "@/lib/api";
+import { api } from "@/lib/api";
 import { useMemo, useState } from "react";
 import { useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
@@ -9,6 +9,7 @@ import isEmpty from 'lodash.isempty';
 import { ChartLoader } from "../ChartLoader";
 import { formatDate } from "@/lib/date";
 import { DateRange } from "react-day-picker";
+import { IAccountOnlineFollowers, THour } from "@repo/types";
 
 interface OnlineFollowersChartProps {
     id: string;

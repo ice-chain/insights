@@ -66,6 +66,7 @@ function ConnectInstagram(props: ConnectInstagramProps) {
             className="flex justify-center items-center p-4 bg-secondary rounded-3xl hover:cursor-pointer"
             title={t('connectInstagram.add')}
         >
+            {/* @ts-expect-error FIXME */}
             <Link
                 to={authUrl.toString()}
             >

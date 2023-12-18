@@ -23,7 +23,7 @@ interface IMetric {
     title: string;
 }
 
-export interface IAccountOverview {
+export interface IAccountOverview extends IMetric {
     name: TMetricName;
     totalValue: number;
     diff: number | null;

@@ -1,12 +1,12 @@
 import { useMemo } from "react";
-import { addDays } from "date-fns";
 import { Area, AreaChart, ReferenceLine, ResponsiveContainer, XAxis, YAxis } from "recharts";
-import { api, IAccountFollowersCount } from "@/lib/api";
+import { api } from "@/lib/api";
 import { useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import { ChartLoader } from "../ChartLoader";
 import { formatDate } from "@/lib/date";
 import { DateRange } from "react-day-picker";
+import { IAccountFollowersCount } from "@repo/types";
 
 interface FollowersCountChartProps {
     id: string;

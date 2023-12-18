@@ -1,9 +1,10 @@
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from "recharts";
-import { api, IAccountInteractions } from "@/lib/api";
+import { api } from "@/lib/api";
 import { useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import { ChartLoader } from "../ChartLoader";
 import { DateRange } from "react-day-picker";
+import { IAccountInteractions } from "@repo/types";
 
 interface InteractionsChartProps {
     id: string;
