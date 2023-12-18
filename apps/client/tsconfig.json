@@ -26,8 +26,9 @@
       "react": [ "./node_modules/@types/react" ]
     },
     "allowSyntheticDefaultImports": true,
+    "types": ["@testing-library/jest-dom"]
   },
-  "include": ["**/*.ts", "**/*.tsx", "postcss.config.js"],
+  "include": ["**/*.ts", "**/*.tsx", "postcss.config.js", "tests/setup.js"],
   "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
