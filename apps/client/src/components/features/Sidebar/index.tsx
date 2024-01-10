@@ -1,8 +1,10 @@
+import { Plus } from "lucide-react";
+import { Link } from '@tanstack/react-router';
+
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import UserChip from "../../shared/UserChip";
+import UserChip from "@/components/shared/UserChip";
 import { cn } from "@/lib/utils";
-import { Plus } from "lucide-react";
 
 interface SidebarProps {
     className?: string;
@@ -26,7 +28,7 @@ export function Sidebar(props: SidebarProps) {
         <aside className={cn(className, "bg-secondary rounded-3xl p-2 sticky top-10 h-[calc(100vh-theme(space.20))] z-30")}>
             <div>
                 <Select defaultValue={accountId}>
-                    <SelectTrigger className="focus:ring-0 bg-transparent ring-offset-secondary border-b-1 border-zinc-300 border-t-0 border-r-0 border-l-0 h-auto rounded-none">
+                    <SelectTrigger className="focus:ring-0 bg-transparent ring-offset-secondary border-b-1 border-zinc-300/20 border-t-0 border-r-0 border-l-0 h-auto rounded-none">
                         <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -55,33 +57,46 @@ export function Sidebar(props: SidebarProps) {
                                 <Plus />
                             </Button>
                         </SelectGroup>
-
                     </SelectContent>
                 </Select>
             </div>
             <nav>
-                <ul className="flex flex-col gap-4 px-4 py-10">
+                <ul className="flex flex-col gap-4 px-4 py-10 text-sm font-normal">
                     <li>
-                        <span>Profile</span>
+                        <a href="#overview">
+                            Profile
+                        </a>
                     </li>
                     <li>
-                        <span>Interactions</span>
+                        <a href="#interactions">
+                            Interactions
+                        </a>
                     </li>
                     <li>
-                        <span>Followers</span>
+                        <a href="#followers">
+                            Followers
+                        </a>
                     </li>
                     <li>
-                        <span>Audience</span>
+                        <a href="#audience">
+                            Audience
+                        </a>
                     </li>
                     <div className="h-10"/>
                     <li>
-                        <span>All Posts</span>
+                         <a href="#">
+                            All Posts
+                        </a>
                     </li>
                     <li>
-                        <span>All Stories</span>
+                         <a href="#">
+                            All Stories
+                        </a>
                     </li>
                     <li>
-                        <span>All Ads</span>
+                         <a href="#">
+                            All Ads
+                        </a>
                     </li>
                 </ul>
             </nav>

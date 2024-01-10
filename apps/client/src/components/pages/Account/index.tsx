@@ -59,26 +59,26 @@ export function Account() {
                                 />
                             </div>
                         </div>
-                        <div className=" grid grid-flow-row gap-4">
-                            <div className="grid gap-4 grid-cols-4 w-full h-max">
+                        <div className="grid gap-4 grid-flow-row">
+                            <div className="grid-row grid-cols-4 h-max" id="overview">
                                 <OverviewChart
                                     id={params.id}
                                     period={period}
                                 />
                             </div>
-                            <div className="grid gap-4 grid-cols-4 w-full h-3/6">
+                            <div className="grid-row grid-cols-4 h-3/6" id="interactions">
                                 <InteractionsChart
                                     id={params.id}
                                     period={period}
                                 />
                             </div>
-                            <div className="grid gap-4 grid-cols-1 w-full h-3/6">
+                            <div className="grid-row grid-cols-1 h-3/6" id="followers">
                                 <OnlineFollowersChart
                                     id={params.id}
                                     period={period}
                                 />
                             </div>
-                            <div className="grid gap-4 grid-cols-2 w-full h-3/6">
+                            <div className="grid-row grid-cols-2 h-3/6">
                                 <FollowersCountChart
                                     id={params.id}
                                     period={period}
