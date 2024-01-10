@@ -20,6 +20,12 @@ To build all apps and packages, run the following command:
 npm build
 ```
 
+### Deploy
+
+```
+vercel --prod
+```
+
 ### Develop
 
 To develop all apps and packages, run the following command:
