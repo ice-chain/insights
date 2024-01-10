@@ -10,5 +10,11 @@ export const ru = {
         'connectInstagram.add': 'Добавить аккаунт',
         'langToggle': 'Изменить язык',
         'themeToggle': 'Изменить тему',
+        'mediaType.reel': 'Рилс',
+        'mediaType.post': 'Публикации',
+        'mediaType.ad': 'Реклама',
+        'mediaType.story': 'Истории',
+        'mediaType.carousel': 'Карусель',
+        'mediaType.empty': 'Нет данных',
     },
 };

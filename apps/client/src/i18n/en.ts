@@ -9,6 +9,12 @@ export const en = {
         'userCard.posts': 'Posts',
         'connectInstagram.add': 'Add account',
         'langToggle': 'Change language',
-        'themeToggle': 'Change theme'
+        'themeToggle': 'Change theme',
+        'mediaType.reel': 'Reels',
+        'mediaType.post': 'Posts',
+        'mediaType.ad': 'Ad',
+        'mediaType.story': 'Stories',
+        'mediaType.carousel': 'Carousel',
+        'mediaType.empty': 'No data',
     }
 };

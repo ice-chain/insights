@@ -6,10 +6,12 @@ import { useMemo, useState } from "react";
 import { useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import isEmpty from 'lodash.isempty';
-import { ChartLoader } from "../ChartLoader";
+import { ChartLoader } from "../../features/ChartLoader";
 import { formatDate } from "@/lib/date";
 import { DateRange } from "react-day-picker";
 import { IAccountOnlineFollowers, THour } from "@repo/types";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Info } from "lucide-react";
 
 interface OnlineFollowersChartProps {
     id: string;
@@ -45,7 +47,7 @@ export function OnlineFollowersChart(props: OnlineFollowersChartProps) {
     const { user } = useUser();
 
     const onlineFollowers = useQuery({
-        queryKey: ['insights-online-followers', id],
+        queryKey: ['insights-online-followers', id, period],
         queryFn: () => api.getAccountOnlineFollowers({
             userId: user!.id,
             accountId: id,
@@ -93,6 +95,22 @@ function OnlineFollowersChartContent(props: OnlineFollowersChartContentProps) {
 
     return (
         <div className="bg-secondary/30 rounded-3xl p-8">
+            <div className="flex justify-between mb-4 text-sm font-medium">
+                {data.title}
+                <Popover>
+                    <PopoverTrigger>
+                        <Info size={20} />
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        <h3 className="text-lg font-semibold">
+                            {data.title}
+                        </h3>
+                        <p className="text-sm mt-4">
+                            {data.description}
+                        </p>
+                    </PopoverContent>
+                </Popover>
+            </div>
             <ToggleGroup
                 className="mb-4"
                 type="single"
@@ -118,7 +136,7 @@ function OnlineFollowersChartContent(props: OnlineFollowersChartContentProps) {
                     <ResponsiveContainer height={300}>
                         <BarChart data={dataToShow}>
                             <XAxis dataKey="hour" />
-                            <Bar dataKey="value" fill="#8884d8">
+                            <Bar dataKey="value" fill="#7638FA" radius={5}>
                                 <LabelList dataKey="value" position="top" />
                             </Bar>
                         </BarChart>

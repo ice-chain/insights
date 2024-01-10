@@ -29,7 +29,7 @@ export interface IAccountOverview extends IMetric {
     diff: number | null;
 }
 
-type TInteractionsDimension = 'POST' | 'REEL' | 'AD' | 'STORY';
+type TInteractionsDimension = 'POST' | 'REEL' | 'AD' | 'STORY' | 'CAROUSEL_CONTAINER';
 
 export interface IAccountInteractions extends IMetric {
     totalValue: {

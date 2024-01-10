@@ -59,16 +59,32 @@ export function Sidebar(props: SidebarProps) {
                     </SelectContent>
                 </Select>
             </div>
-            {/* <nav>
-                <ul>
+            <nav>
+                <ul className="flex flex-col gap-4 px-4 py-10">
                     <li>
                         <span>Profile</span>
                     </li>
                     <li>
+                        <span>Interactions</span>
+                    </li>
+                    <li>
                         <span>Followers</span>
                     </li>
+                    <li>
+                        <span>Audience</span>
+                    </li>
+                    <div className="h-10"/>
+                    <li>
+                        <span>All Posts</span>
+                    </li>
+                    <li>
+                        <span>All Stories</span>
+                    </li>
+                    <li>
+                        <span>All Ads</span>
+                    </li>
                 </ul>
-            </nav> */}
+            </nav>
         </aside>
     )
 }
