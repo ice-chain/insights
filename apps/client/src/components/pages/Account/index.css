@@ -24,3 +24,8 @@
 .grid-row {
     @apply grid gap-4 w-full -mt-[60px] pt-[60px];
 }
+
+.main {
+    @apply col-span-5 grid grid-flow-row;
+    grid-auto-rows: max-content auto;
+}

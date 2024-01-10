@@ -31,6 +31,7 @@ export function OverviewChart(props: OverviewChartProps) {
 
     return (
         <ChartLoader
+            columns={4}
             query={insights}
             renderChart={(data) => <OverviewChartContent data={data} />}
         />

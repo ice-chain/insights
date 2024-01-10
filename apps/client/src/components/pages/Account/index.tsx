@@ -49,7 +49,7 @@ export function Account() {
                         accountId={params.id}
                         accounts={accounts.data}
                     />
-                    <main className="col-span-5 grid grid-flow-row">
+                    <main className="col-span-5 grid grid-flow-row main">
                         <div className="sticky-topbar">
                             <div className="bg-secondary rounded-3xl w-full px-2 ">
                                 <PeriodSelector
@@ -60,25 +60,25 @@ export function Account() {
                             </div>
                         </div>
                         <div className="grid gap-4 grid-flow-row">
-                            <div className="grid-row grid-cols-4 h-max" id="overview">
+                            <div className="grid-row grid-cols-4" id="overview">
                                 <OverviewChart
                                     id={params.id}
                                     period={period}
                                 />
                             </div>
-                            <div className="grid-row grid-cols-4 h-3/6" id="interactions">
+                            <div className="grid-row grid-cols-4" id="interactions">
                                 <InteractionsChart
                                     id={params.id}
                                     period={period}
                                 />
                             </div>
-                            <div className="grid-row grid-cols-1 h-3/6" id="followers">
+                            <div className="grid-row grid-cols-1" id="followers">
                                 <OnlineFollowersChart
                                     id={params.id}
                                     period={period}
                                 />
                             </div>
-                            <div className="grid-row grid-cols-2 h-3/6">
+                            <div className="grid-row grid-cols-2">
                                 <FollowersCountChart
                                     id={params.id}
                                     period={period}

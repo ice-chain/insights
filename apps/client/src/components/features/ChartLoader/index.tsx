@@ -5,13 +5,22 @@ import { ChartSkeleton } from "../ChartSkeleton";
 interface ChartLoaderProps<T> {
     query: UseQueryResult<T>;
     renderChart: (data: T) => ReactNode;
+    columns?: number;
 }
 
 export function ChartLoader<T>(props: ChartLoaderProps<T>) {
-    const { query, renderChart } = props;
+    const { query, renderChart, columns = 1 } = props;
 
     if (query.isLoading) {
-        return <ChartSkeleton />;
+        return (
+            <>
+                {
+                    Array(columns).fill(null).map((_, i) => {
+                        return <ChartSkeleton key={i} />;
+                    })
+                }
+            </>
+        )
     }
 
     if (query.isError) {

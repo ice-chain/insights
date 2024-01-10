@@ -52,6 +52,7 @@ export function InteractionsChart(props: InteractionsChartProps) {
 
     return (
         <ChartLoader
+            columns={4}
             query={interactionsQuery}
             renderChart={(data) => <InteractionsChartContent data={data} />}
         />
