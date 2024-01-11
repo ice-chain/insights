@@ -1,6 +1,6 @@
 import { FacebookAdsApi, IGUser, InstagramInsightsResult } from 'facebook-nodejs-business-sdk';
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { IAccountFollowersCount, IAccountInteractions, IAccountOnlineFollowers, IAccountOverview } from '@repo/types';
+import { IAccountDemographics, IAccountFollowersCount, IAccountInteractions, IAccountOnlineFollowers, IAccountOverview } from '@repo/types';
 import { decrypt, encrypt } from '../lib/enctypt';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserService } from '../user/user.service';
@@ -333,5 +333,55 @@ export class InstagramService {
       title: followersCount.title,
       values: followersCount.values,
     }
+  }
+
+
+  async findInsightsDemographic({ userId, id, locale }: InstagramInsightsDto): Promise<IAccountDemographics> {
+    const accountData = await this.getAccountData(id);
+
+    this.checkPermissions(accountData.userId, userId);
+
+    FacebookAdsApi.init(accountData.token);
+
+    const demographicsBreakdowns = await Promise.all(['age', 'gender', 'city', 'country'].map(breakdown => {
+      return new IGUser(id).getInsights(
+        [
+          InstagramInsightsResult.Fields.name,
+          InstagramInsightsResult.Fields.title,
+          InstagramInsightsResult.Fields.description,
+          InstagramInsightsResult.Fields.total_value,
+        ],
+        {
+          metric: [
+            InstagramInsightsMetrics.follower_demographics,
+            // InstagramInsightsMetrics.engaged_audience_demographics,
+            // InstagramInsightsMetrics.reached_audience_demographics,
+          ],
+          metric_type: InstagramInsightsResult.MetricType.total_value,
+          period: InstagramInsightsResult.Period.lifetime,
+          timeframe: InstagramInsightsResult.Timeframe.last_14_days,
+          breakdown,
+          locale,
+        }
+      );
+    }));
+
+    const meta = demographicsBreakdowns[0][0];
+
+    const values = demographicsBreakdowns.map(([metric]) => {
+      const [breakdown] = metric.total_value.breakdowns;
+      return {
+        dimension_key: breakdown.dimension_keys[0],
+        results: breakdown.results,
+      };
+    });
+
+    return {
+      id: meta.id,
+      name: meta.name,
+      title: meta.title,
+      description: meta.description,
+      values,
+    };
   }
 }

@@ -99,4 +99,19 @@ export class InstagramController {
 
     return this.instagramService.findInsightsFollowersCount({ period, userId, id, locale });
   }
+
+  @Get(':id/demographics')
+  findInsightsDemographic (
+    @Auth() auth: SignedOutAuthObject,
+    @Param('id') id: string,
+    @Query('userId') userId: string,
+    @Query('period') period: { since: number, until: number },
+    @Headers('accept-language') locale: string,
+  ) {
+    if (userId !== auth.userId) {
+      return new ForbiddenException();
+    }
+
+    return this.instagramService.findInsightsDemographic({ period, userId, id, locale });
+  }
 }

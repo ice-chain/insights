@@ -1,5 +1,5 @@
 export class InstagramInsightsDto {
-    period: {
+    period?: {
         since: number;
         until: number;
     };

@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from '@tanstack/react-router';
 import { useUser } from '@clerk/clerk-react';
 import { addDays } from 'date-fns';
-import { Metric } from '@/components/shared/Metric';
 import { RootLayout } from '@/components/shared/RootLayout';
 import { Sidebar } from '@/components/features/Sidebar';
 import { api } from '@/lib/api';
@@ -12,8 +11,9 @@ import { OnlineFollowersChart } from '@/components/charts/OnlineFollowersChart';
 import { FollowersCountChart } from '@/components/charts/FollowersCountChart';
 import { InteractionsChart } from '@/components/charts/InteractionsChart';
 import { PeriodSelector } from '@/components/features/PeriodSelector';
-import './index.css';
 import { OverviewChart } from '@/components/charts/OverviewChart';
+import { DemographicChart } from '@/components/charts/DemographicChart';
+import './index.css';
 
 const initialPeriod = {
     from: addDays(new Date(), -7),
@@ -82,6 +82,11 @@ export function Account() {
                                 <FollowersCountChart
                                     id={params.id}
                                     period={period}
+                                />
+                            </div>
+                            <div className="grid-row grid-cols-1">
+                                <DemographicChart
+                                    id={params.id}
                                 />
                             </div>
                         </div>

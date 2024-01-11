@@ -58,3 +58,15 @@ export interface IAccountFollowersCount extends IMetric {
         end_time: string;
     }[]
 }
+
+type TDemographicsDimension = 'country' | 'city' | 'age' | 'gender';
+
+export interface IAccountDemographics extends IMetric {
+    values: {
+        dimension_key: TDemographicsDimension;
+        results: {
+            dimension_values: string[];
+            value: number;
+        }[],
+    }[];
+}

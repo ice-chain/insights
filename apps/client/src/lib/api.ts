@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import i18next from "i18next";
 import { convertPeriod } from "./date";
-import { IAccount, IAccountFollowersCount, IAccountInteractions, IAccountOnlineFollowers, IAccountOverview } from '@repo/types';
+import { IAccount, IAccountDemographics, IAccountFollowersCount, IAccountInteractions, IAccountOnlineFollowers, IAccountOverview } from '@repo/types';
 import { IAccountParams, IInsightsParams } from "@/types/api";
 
 class Api {
@@ -70,6 +70,10 @@ class Api {
 
     async getAccountFollowersCount(params: IInsightsParams) {
         return this.getAccountInsights<IAccountFollowersCount>('followers-count', params);
+    }
+
+    async getAccountDemographic(params: IInsightsParams) {
+        return this.getAccountInsights<IAccountDemographics>('demographics', params);
     }
 }
 
