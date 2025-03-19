@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Management App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #333;
+            padding: 0.5rem 0;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem;
+        }
+        nav a:hover {
+            background-color: #575757;
+            border-radius: 4px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem;
+        }
+        .sidebar {
+            width: 25%;
+            background-color: white;
+            padding: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .content {
+            width: 70%;
+            background-color: white;
+            padding: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Social Media Management Platform</h1>
+</header>
+
+<nav>
+    <a href="#dashboard">Dashboard</a>
+    <a href="#analytics">Analytics</a>
+    <a href="#campaigns">Campaigns</a>
+    <a href="#settings">Settings</a>
+</nav>
+
+<div class="container">
+    <div class="sidebar">
+        <h3>Navigation</h3>
+        <ul>
+            <li><a href="#profile">Profile</a></li>
+            <li><a href="#schedule">Schedule</a></li>
+            <li><a href="#messages">Messages</a></li>
+            <li><a href="#reports">Reports</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <h2>Welcome to Your Dashboard</h2>
+        <p>Here you can manage all your social media accounts, view analytics, and create campaigns to grow your presence.</p>
+        <div style="margin-top: 2rem;">
+            <h3>Quick Actions</h3>
+            <ul>
+                <li>Create a New Post</li>
+                <li>Schedule a Campaign</li>
+                <li>View Account Insights</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2024 Social Media Management Platform. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>

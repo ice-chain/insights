@@ -33,6 +33,7 @@ export function Account() {
     });
 
     if (accounts.isPending) {
+        // TODO: skeleton
         return 'Loading...';
     }
 
@@ -83,11 +84,12 @@ export function Account() {
                                     id={params.id}
                                     period={period}
                                 />
-                            </div>
-                            <div className="grid-row grid-cols-1">
                                 <DemographicChart
                                     id={params.id}
                                 />
+                            </div>
+                            <div className="grid-row grid-cols-1">
+
                             </div>
                         </div>
                     </main>

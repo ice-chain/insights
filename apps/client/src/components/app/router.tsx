@@ -24,8 +24,8 @@ const authenticatedRoute = new Route({
   component: function Auth() {
     const { isLoaded, isSignedIn } = useAuth();
 
-    if(!isLoaded) {
-      return 'LOADING>>>>';
+    if (!isLoaded) {
+      return null;
     }
 
     return isSignedIn ? (
